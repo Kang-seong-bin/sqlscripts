@@ -1,0 +1,3077 @@
+-- 회원이 도서를 '대여'하는 업무처리와 관련된 테이블.
+create table book_member(
+mem_idx number(5) primary key, --회원번호 
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20) unique,
+password varchar2(10)
+);
+
+create table tbl_book (
+bcode char(5) primary key,
+title varchar2(30) not null,
+writer varchar2(20),
+publisher varchar2(20),
+pdate date
+);
+
+create table tbl_bookrent(
+rent_no number(5) primary key,
+mem_idx number(5) NOT null,
+bcode char(5) NOT null,
+rent_date date not null,
+exp_date date not null,
+return_date date,
+delay_days number(3),
+CONSTRAINT fk1 foreign KEY (mem_idx) --CONSTRAINT fk1는 생략가능
+	REFERENCES book_member(mem_idx),
+	CONSTRAINT fk2 FOREIGN KEY(bcode)
+	references tbl_book(bcode)
+);
+
+--회원 번호 시퀸스
+CREATE SEQUENCE memidx_seq START WITH 10001;
+
+-- 대여 일련번호를 위한 시퀸스
+CREATE SEQUENCE bookrent_seq START WITH 1;
+--회원데이터 추가
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이하니','honey@naver.com','010-9889-0567','1122');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이세종','jong@daum.net','010-2354-6773','2345');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'최행운','lucky@korea.com','010-5467-8792','9876');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'나길동','nadong@kkk.net','010-3456-8765','3456');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'강감찬','haha@korea.net','010-3987-9087','1234');
+
+SELECT * FROM book_member ;
+
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1101','코스모스','칼세이건','사이언스북스','2006-12-01');
+--문자열에서 날짜타입으로는 자동캐스팅됩니다. 함수를 사용할 때에는 to_date() 함수를 사용합니다.
+-- 참고 : 날짜탕비을 문자열로 변환시키는 것은? to  char() 함수
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('B1101','해커스토익','이해커','해커스랩','2018-07-10');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('C1101','푸른사자 와니니','이현','창비','2015-06-20');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1102','페스트','알베르트 까뮈','민음사','2011-03-01');
+
+SELECT * FROM tbl_book ;
+
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10001,'B1101','2021-09-01 ','2021-09-15 ','2021-09-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10002,'C1101','2021-09-12 ','2021-09-26','2021-09-29');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'B1101','2021-09-03 ','2021-09-17 ','2021-09-17');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10004,'C1101','2022-06-30','2022-07-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10001,'A1101','2022-07-04 ','2022-07-18 ');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'A1102','2022-07-06 ','2022-07-20 ','2022-07-13');
+
+SELECT * FROM tbl_bookrent ;-- 회원이 도서를 '대여'하는 업무처리와 관련된 테이블.
+create table book_member(
+mem_idx number(5) primary key, --회원번호 
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20) unique,
+password varchar2(10)
+);
+
+create table tbl_book (
+bcode char(5) primary key,
+title varchar2(30) not null,
+writer varchar2(20),
+publisher varchar2(20),
+pdate date
+);
+
+create table tbl_bookrent(
+rent_no number(5) primary key,
+mem_idx number(5) NOT null,
+bcode char(5) NOT null,
+rent_date date not null,
+exp_date date not null,
+return_date date,
+delay_days number(3),
+CONSTRAINT fk1 foreign KEY (mem_idx) --CONSTRAINT fk1는 생략가능
+	REFERENCES book_member(mem_idx),
+	CONSTRAINT fk2 FOREIGN KEY(bcode)
+	references tbl_book(bcode)
+);
+
+--회원 번호 시퀸스
+CREATE SEQUENCE memidx_seq START WITH 10001;
+
+-- 대여 일련번호를 위한 시퀸스
+CREATE SEQUENCE bookrent_seq START WITH 1;
+--회원데이터 추가
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이하니','honey@naver.com','010-9889-0567','1122');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이세종','jong@daum.net','010-2354-6773','2345');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'최행운','lucky@korea.com','010-5467-8792','9876');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'나길동','nadong@kkk.net','010-3456-8765','3456');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'강감찬','haha@korea.net','010-3987-9087','1234');
+
+SELECT * FROM book_member ;
+
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1101','코스모스','칼세이건','사이언스북스','2006-12-01');
+--문자열에서 날짜타입으로는 자동캐스팅됩니다. 함수를 사용할 때에는 to_date() 함수를 사용합니다.
+-- 참고 : 날짜탕비을 문자열로 변환시키는 것은? to  char() 함수
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('B1101','해커스토익','이해커','해커스랩','2018-07-10');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('C1101','푸른사자 와니니','이현','창비','2015-06-20');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1102','페스트','알베르트 까뮈','민음사','2011-03-01');
+
+SELECT * FROM tbl_book ;
+
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10001,'B1101','2021-09-01 ','2021-09-15 ','2021-09-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10002,'C1101','2021-09-12 ','2021-09-26','2021-09-29');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'B1101','2021-09-03 ','2021-09-17 ','2021-09-17');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10004,'C1101','2022-06-30','2022-07-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10001,'A1101','2022-07-04 ','2022-07-18 ');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'A1102','2022-07-06 ','2022-07-20 ','2022-07-13');
+
+SELECT * FROM tbl_bookrent ;
+
+--추가하기 : 기본적인 동작은 대여날짜는 오늘, 반납기한은 오늘+14
+--alter table "C##idev".tbl_bookrent modify rent_date date default sysdate;
+--alter table "C##idev".tbl_bookrent modify exp_date date default sysdate+14;
+-- INSERT into TBL_BOOKRENT (rent_no,mem_dex,bcode)
+--values(bookrent_seq.nextval,10002,'A1102');
+
+
+--컬럼 디폴트 값 없애고 싶을 떄
+--alter table "C##idev".tbl_bookrent modify rent_date date default null;
+
+
+
+
+/*
+ * [[[[ ' 도서대여
+ * 
+ * -대여한다. : rent_date 는 대여일자, ㄷxp_date는 반납기한일자이며 rent_date + 14
+ * -반납한다. : return date 는 반납일자, delay_days는 연체일수 return date - exp_date
+ * - 대출 중인 것을 확인하는 처리조건 : return_date 가 null이면 대여중, null이 아니면 반납된 도서.
+ */
+
+
+--1)도서를 추가합니다. ‘B1102’ , ‘스트라이크 던지기’, ‘박철순’ ,’KBO’ , ‘2020-11-10’’
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+values('B1102', '스트라이크 던지기', '박철순', 'KBO', '2020-11-10');
+--2)반납된 도서의 연체일수를 계산하여 delay_days 컬럼값을 update 합니다.
+UPDATE TBL_BOOKRENT SET delay_days = RETURN_date - exp_date
+WHERE RETURN_date IS NOT NULL;
+SELECT * FROM tbl_book ;
+SELECT * FROM tbl_bookrent;
+--3)현재 대출중인 도서의 연체일수계산해서 회원IDX, 도서코드, 연체 일수 조회합니다.
+-- 오늘 날짜 sysdate 는 년월일 패턴이 지정되지 않아 그냥하면 long 값으로 계산됩니다.
+SELECT mem_idx, bcode, to_date(to_char(sysdate,'yyyy-MM-dd')) - exp_date 
+FROM tbl_bookrent WHERE RETURN_date IS NULL;
+
+--4) 현재 대출 중인 도서 중 연체인 회원의 이름,전화번호를 검색합니다. 오늘 날짜 sysdate 기준으로 확인하기.!
+SELECT name,tel FROM BOOK_MEMBER bm JOIN tbl_bookrent tb
+ON bm.mem_idx = tb.mem_idx AND SYSDATE > exp_date AND RETURN_date IS NULL;
+
+--5) 현재 대출중인 도서의 도서명 코드와 도서명 검색합니다.
+SELECT tb.bcode ,title  FROM tbl_book tb JOIN tbl_bookrent tb2
+ON tb.bcode = tb2.bcode AND return_date IS NULL;
+
+
+--6) 현재 도서를 대여한 회원의 IDX와 회원이름을 검색합니다.
+SELECT bm.mem_idx , name  FROM BOOK_MEMBER bm JOIN tbl_bookrent tb
+ON bm.mem_idx = tb.mem_idx AND RETURN_date IS NULL;
+
+-- 7) 대출 중인 도서의 회원이름, 도서명, 반납기한 검색합니다.
+--join
+SELECT name, title  ,exp_date FROM tbl_book tb 
+JOIN tbl_bookrent tb2 ON tb.bcode = tb2.bcode 
+JOIN BOOK_MEMBER  bm ON bm.mem_idx =tb2.mem_idx 
+WHERE  return_date IS NULL; 
+
+-- 또는 join x
+SELECT bm.name , tb.title ,tb2.exp_date 
+FROM book_member bm, tbl_book tb, tbl_bookrent tb2
+WHERE bm.mem_idx = tb2.mem_idx AND tb.bcode = tb2.bcode 
+AND tb2.return_date IS NULL;
+
+
+
+--8)현재 연체 중인 도서의 회원IDX, 도서코드, 반납기한을 검색합니다.
+SELECT mem_idx ,bcode ,exp_date FROM tbl_bookrent tb
+WHERE sysdate > exp_date;
+--9)회원  IDX ‘10002’는 도서 대출이 가능한지 프로시저를 작성합니다.
+--CREATE OR REPLACE PROCEDURE 'WTRT' (param_index NUMBER(5))
+
+-- 일회용으로 실행하는 프로시저
+DECLARE
+	vcnt NUMBER;
+BEGIN 
+	SELECT count(*) 
+	INTO vcnt -- SELECT 조회 결과 저장할 변수. 여러개 , 로 나열할 수 있음.
+	FROM tbl_bookrent tb
+	WHERE mem_idx =10001 AND RETURN_date IS NULL;		--rcnt가 0일때만 대여가능
+	IF (vcnt = 0) THEN
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	ELSE
+	DBMS_OUTPUT.put_line('대여 중인 책을 반납해야 가능합니다.');
+	END IF;
+END;
+
+--프로시저 오라클 객체
+CREATE OR REPLACE PROCEDURE CHECK_member(
+	arg_mem IN book_member.MEM_IDX%TYPE,	-- 프로시저 실행할때 값을 받을 매개변수 
+	isOK OUT varchar2		--자바의 리턴값에 해당하는 부분
+	)
+IS 
+vcnt NUMBER;
+vname varchar2(100);
+	BEGIN 	--입력매개변수가 없는 회원인가를 확인하는 sql과 EXCEPTION 처리 . arg_mem으로 회원테이블에서 name조회
+		-- 없으면 exception 처리
+		SELECT name
+		INTO vname		--변수에 저장.
+		FROM BOOK_MEMBER bm WHERE mem_idx = arg_mem ;
+		
+	SELECT count(*) 
+	INTO vcnt 
+	FROM tbl_bookrent tb
+	WHERE mem_idx =arg_mem AND RETURN_date IS NULL;		--rcnt가 0일때만 대여가능
+	IF (vcnt = 0) THEN
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	isOK := '가능';
+	ELSE
+	DBMS_OUTPUT.put_line('대여 중인 책을 반납해야 가능합니다.');
+	isOK := '불가능';
+	END IF;
+EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('회원이 아닙니다.');	
+	isOK := 'no match'; 
+END;
+	--프로시저 실행하기
+	DECLARE
+		vresult varchar2(20);
+	BEGIN
+		CHECK_member(10003,vresult);
+		DBMS_OUTPUT.put_line('결과 : ' || vresult);
+	END;
+	
+
+
+
+--10)도서명에 ‘스트’ 라는 글자가 들어가는 도서를 검색하여 도서 대출이 가능한지 프로시저를 작성합니다. 프로시저이름은 check_book 으로 하세요.
+DECLARE
+	v_bcode varchar2(20);
+	v_cnt NUMBER;
+	BEGIN 
+	SELECT bcode  INTO v_bcode		--v_bcode는 'A1102'
+	FROM tbl_book tb WHERE title LIKE '페스트'; 		
+	SELECT count(*) INTO v_cnt		--v_cnt값이 1이면 v_bcode 책은 대출중
+			FROM tbl_bookrent tb2 WHERE bcode = v_bcode AND return_date IS NULL;
+	IF (v_cnt = 0) THEN
+	dbms_output.put_line('그 책은 대여 가능합니다.');
+	ELSE
+	dbms_output.put_line('그 책은 대여 중입니다.');
+	END IF;
+END; 
+
+--
+
+--프로시저 오라클 객체
+CREATE OR REPLACE PROCEDURE CHECK_BOOK(
+			arg_book IN tbl_book.TITLE%TYPE,	-- 프로시저 실행할때 값을 받을 매개변수 
+			isOK OUT varchar2		--자바의 리턴값에 해당하는 부분
+	)
+		IS 	
+		v_bcode varchar2(100);
+		v_cnt NUMBER;
+	BEGIN 
+	SELECT BCODE INTO v_bcode 		---v_bcode는 'A1102'
+		FROM tbl_book tb WHERE title = arg_book;
+	SELECT count(*) INTO v_cnt		-- v_cnt 값이 1이면 v_bcode 책은 대출중
+	FROM tbl_bookrent tb2 WHERE bcode = v_bcode AND return_date IS NULL; 
+	IF (v_cnt = 1) THEN
+	DBMS_OUTPUT.put_line('대여 중인 책 입니다.');
+	isOK := 'FALSE';
+	ELSE
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	isOK := 'TRUE';
+	END IF;
+EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	isOK := 'no match'; 
+END;
+	--프로시저 실행하기
+	DECLARE
+		vresult varchar2(100);
+	BEGIN
+		CHECK_book('페스트',vresult); 	--코스모스, 푸른사자 와니니 는 FALSE 나머지는 TRUE
+		DBMS_OUTPUT.put_line('결과 : ' || vresult);
+	END;
+--
+
+--11)9과 10을 이용해서 insert 를 하는 프로시저를 작성합니다. 
+-- 데이터 타입 number 연습 테이블
+-- number : 자바에서 정수, 실수 타입에 해당.
+--		number(정밀도, 소수점이하자리수)
+
+-- 이미 있는 테이블 제거
+DROP TABLE TBL_NUMBER ;
+
+--	샘플 테이블 만들기
+CREATE TABLE tbl_number(
+	col1 NUMBER,		-- 정밀도 지정안하면 최대 38자리 (38자리는 자바에서 BigDecimal)
+	col2 number (5),	-- 정수로 5자리 (소수점 이하 없음)
+	col3 number (7,2),	-- 전체 7자리수, 소수점이하 2자리 고정
+	col4 number (2,5)	-- 소수점이하 5자리, 0 아닌 유효숫자 최대 2자리
+);
+-- 유효 숫자 : 12300 또는 00123 첫번째 00은 유효 값, 두번째 00은 불필요
+-- 정상 시행 값 테스트 1
+INSERT INTO tbl_number 
+VALUES (1234567,12345,12345.67,0.00012); 
+
+
+-- 오류 테스트 1	: col2 값 자리 수 초과
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,123456,12345.67,0.00012);
+
+-- 정상 테스트 2	: col3 값 소수 이하 자리 수 초과 ?
+-- 				ㄴ	자리 수 초과시 반올림해서 소수이하 2자리
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345.6789,0.00012);
+ 
+-- 오류 테스트 2 : col3 전체자리 수 (정밀도) 초과
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,123456.6789,0.00012);
+
+-- 정상 테스트 3 : col3에 소수점이하 값이 없을 때
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.00012);
+
+-- 오류 테스트 3 : col3필드 정수부분 자리 수 초과 (소수점 이하 .00)
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,123456,0.00012);
+
+-- col4 NUMBER (2,5)  --소수점이하 5자리 고정, 0 아닌 유효숫자 최대 2자리
+-- 정상 테스트 4
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.00002);
+
+
+-- 1) 저장된 값 : 0.0002
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.0002);
+-- 2) 저장된 값 : 0.00013
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.000126);
+-- 3) 오류
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.0012);	--0.00120 앞에 00은 유효한 0, 맨 마지막 0은 불필요
+-- 4) 저장된 값 : 0
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0);	--0.00000
+--위의 4가지 예시 결론 : number (2,5) 에서 정밀도 < 소수점이하 자리 수, 
+-- 					2-5=-3 소수점 이하 유효 0이 3개 이상이어야 합니다.
+-- 조회
+SELECT * FROM TBL_NUMBER ;
+
+
+-- 문자열 타입
+-- CHAR(길이) : 고정길이 , 단위는 바이트 
+-- VARCHAR(길이) : 오라클에서 존재하지만 사용하지 않는 예비자료형.
+-- VARCHAR2(길이) : 가변형길이 단위 바이트, 길이는 최대길이이고 실제로 메모리는 데이터크기만큼 사용합니다.
+--				최대 2000바이트입니다. UTF-8 인코딩에서 한글은 3바이트, 영문/숫자/기호는 1바이트
+
+CREATE TABLE TBL_string(
+	acol char(10),   	-- 10바이트 고정길이
+	bcol varchar2(10),	-- 10바이트 가변길이
+	ccol nchar(10),		-- 10개 문자 고정길이
+	dcol nvarchar2(10)	-- 10개 문자 가변길이
+);
+
+-- char 타입 
+INSERT INTO TBL_string (acol) values('abcdefghij');
+INSERT INTO TBL_string (acol) values('abcdef');			-- acol은 고정길이 타입 : 공백 4개 추가
+INSERT INTO TBL_string (acol) values('abcdefghijklm');	-- 오류 : 길이 초과
+-- INSERT 확인
+SELECT * FROM TBL_string; 
+
+--한글 확인
+INSERT INTO tbl_string(acol) values ('가나다');	-- 공백 1개 추가
+INSERT INTO tbl_string(acol) values ('가나다라');	-- 오류 : 열에 대한 값이 너무 큼(실제 : 12, 최대값 : 10)
+INSERT INTO tbl_string(acol) values ('가나');		-- 공백 4개 추가
+
+-- varchar2 타입 : bcol은 가변길이 10바이트 ,가변길이이기에 10바이트보다 작은 값을 가져도 공백 추가가 없다.
+INSERT INTO TBL_string (bcol) values('abcdefghij');
+INSERT INTO TBL_string (bcol) values('abcdef');			-- bcol은 가변길이 타입 .  공백 추가 없음.
+INSERT INTO TBL_string (bcol) values('abcdefghijklm');	--오류 : 길이 초과
+-- INSERT 확인
+SELECT * FROM TBL_string; 
+--한글 확인
+INSERT INTO tbl_string(bcol) values ('가나다');	-- 공백 추가 없음.
+INSERT INTO tbl_string(bcol) values ('가나다라');	-- 오류 : 열에 대한 값이 너무 큼(실제 : 12, 최대값 : 10)
+INSERT INTO tbl_string(bcol) values ('가나');		-- 공백 추가 없음.
+
+--char과 varchar2는 바이트 단위. nchar과 nvarchar2 는 문자개수 단위(다국어 문자가 많이 포함되는 컬럼에 적절)
+--nchar 타입
+INSERT INTO tbl_string(ccol) values ('가나다');	-- 공백 7개 추가
+INSERT INTO tbl_string(ccol) values ('가나다라');	-- 공백 6개 추가
+INSERT INTO tbl_string(ccol) values ('가나');		-- 공백 8개 추가
+INSERT INTO tbl_string(ccol) values ('가나다라마바사아자차카');		-- 오류 : 길이초과 
+SELECT * FROM tbl_string;
+--nvarchar2 타입
+INSERT INTO tbl_string(dcol) values ('가나다');	-- 공백 추가 없음
+INSERT INTO tbl_string(dcol) values ('가나다라');	-- 공백 추가 없음 
+INSERT INTO tbl_string(dcol) values ('가나');		-- 공백 추가 없음
+INSERT INTO tbl_string(dcol) values ('가나다라마바사아자차카');		-- 오류 : 길이초과 
+-- 테이블 만드는 CREATE table, 데이터 형식 테스트
+
+CREATE TABLE tbl_member(
+	mno NUMBER,
+	name nvarchar2(50),
+	email varchar2(100),
+	join_date DATE		--날짜 년-월-일, 시간 시:분:초.밀리초
+); 
+
+--DML INSERT 형식 (데이터 추가)
+--모든 컬럼에 데이터를 저장하는 형식(컬럼명 생략) , 날짜는 date 자동변환
+INSERT INTO tbl_member VALUES (1, '김모모','momo@naver.com','2022-03-02');
+-- 일부 컬럼에 데이터를 저장하는 형식
+INSERT INTO tbl_member(mno,name)	-- 데이터 저장될 컬럼명 나열
+VALUES (2, '이나나');
+-------------------------------------------
+-- 2. DML SELECT 형식 (데이터 행 row 조회)
+-- SELECT 조회할 컬럼 목록 from 테이블 이름 [WHERE 조건식]; 모든 컬럼은 *(와일드카드) 로 대체
+SELECT name FROM TBL_MEMBER ;
+SELECT name,JOIN_DATE FROM TBL_MEMBER ;
+SELECT * FROM  TBL_MEMBER ;
+SELECT * FROM  TBL_MEMBER WHERE name = '최다현';  --조건식은 컬럼이름으로 조회할 관계,논리식
+SELECT * FROM  TBL_MEMBER WHERE mno > 2;
+SELECT * FROM  TBL_MEMBER WHERE JOIN_DATE > '2022-03-03';
+SELECT name,email FROM TBL_MEMBER WHERE JOIN_DATE > '2022-03-03';
+--null 값 조회
+SELECT *FROM TBL_MEMBER WHERE EMAIL IS NULL ;
+SELECT *FROM TBL_MEMBER WHERE EMAIL IS NOT NULL ;
+-- 문자열의 부분검색 : like 연산
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '%다현'; -- %는 don't care
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '다현%'; -- 조회결과는 안나온다.
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '%다현%'; -- 조회결과 나온다.
+-- or 연산 : mno값이 1또는 2또는 4
+SELECT * FROM TBL_MEMBER 
+WHERE mno = 1 OR mno = 2 OR mno = 4;
+--			오라클의 or 대체 연산자 : in (동일 컬럼에 대한 조건식일 때)
+SELECT * FROM TBL_MEMBER WHERE mno IN (1,2,4);
+SELECT * FROM TBL_MEMBER WHERE mno NOT IN (1,2,4);
+SELECT * FROM TBL_MEMBER WHERE name IN ('김모모','최다현');
+
+
+
+--Date 형식
+INSERT INTO tbl_member
+VALUES (3, '최다현','dahy@naver.com','2022-03-04 16:47');	-- 오류 : 날짜형식으로 자동변환 못함.
+
+--오라클의 to_date 함수는 문자열을 날짜형식으로 변환.(두번째 인자는 패턴)
+INSERT INTO tbl_member
+VALUES (3, '최다현','dahy@naver.com',to_date('2022-03-04 16:47','YYYY-MM-DD HH24:MI'));
+
+-- to_char 함수 : 날짜형식에서 문자열로 변경합니다. 두번째 인자는 패턴-> 년도 또는 일부 값만 추출에 활용.
+SELECT to_char(join_date,'YYYY') FROM TBL_MEMBER;
+
+-- 현재 시스템의 날짜와 시간 : sysdate 함수
+INSERT INTO TBL_MEMBER VALUES (4, '쯔위','aaa@gmail.com',sysdate);
+
+SELECT * FROM TBL_MEMBER;
+
+
+-- 처음 만든 테이블 구조 중 mno 컬럼을 정밀도 5로 축소 변경
+-- 			축소 변경할 때는 mno 컬럼에 값이 없어야 합니다.
+-- 	ㄴ ALTER table "C##IDEV".TBL_MEMBER MODIFY mno number(5,0);/* 	
+ * 직원 테이블 : 직원_ID , 이름, 성, 이메일, 폰번호, 고용일자, 업무_ID, 급여, 매니저_ID, 부서_ID)
+1. hire_date가 2006년 1월 1일 이전인 직원의 이름,성,이메일 (<연산)
+
+2. lastname이 'Jones' 인 직원의 모든 컬럼 동등한 값 조회 (=연산)
+
+3. salary 가 5000 이상인 직원의 이름,성,JOB_ID 조회 (이상이하 =포함)
+
+4. JOB_ID 에 ACCOUNT 가 들어가는 직원의 이름,성,salary 조회 (like 연산)
+
+5. 부서_ID 가 50 ,60, 80,90 인 직원의 직원_ID, 이름,성 조회  (in연산)
+
+*/	--작성자 : 강성빈
+--1
+SELECT first_name, last_name, email  FROM  EMPLOYEES  WHERE hire_DATE < '2006-01-01';
+--2
+SELECT * FROM EMPLOYEES WHERE LAST_NAME = 'Jones';
+--대소문자 검사는 조건식에서 주의해야할 요인 대소문자 검사로 한다!
+--컬럼 값을 대소문자 변환 후 조건 값 비교	-> 대소문자와 무관하게 비교 가능
+SELECT * FROM EMPLOYEES WHERE UPPER(LAST_NAME)  = 'JONES';
+SELECT * FROM EMPLOYEES WHERE LOWER(LAST_NAME)  = 'jones';
+
+
+--3
+SELECT first_name, last_name, JOB_ID FROM EMPLOYEES WHERE SALARY >= 5000;
+--4
+SELECT first_name, last_name, SALARY  FROM EMPLOYEES WHERE JOB_ID LIKE '%ACCOUNT%'; 
+--5 : 데이터 타입 변환
+--5 or로 작성
+SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES 
+WHERE DEPARTMENT_ID = 50 OR DEPARTMENT_ID = 60 OR DEPARTMENT_ID = 80 OR DEPARTMENT_ID = 90;
+--5 in으로 작성
+SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN (50,60,80,90);
+--SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN ('50','60','80','90');--문자로 작성되었지만 오라클이 자동으로 형변환해주었기에 오류가 발생하지 않는다. -> 컬럼형식에 따라 number로 변환
+
+--통계 함수 : count, avg, max, min . 통계 함수는 그룹 함수라고도 합니다.
+--			해당 함수 결과 값을 구하기 위해 특정 컬럼 사용하여 여러 데이터를 그룹화한 후 실행.
+SELECT count(*) FROM EMPLOYEES ; 	--테이블 전체 데이터 갯수 	: 107
+SELECT max(salary) FROM EMPLOYEES ; --salary 컬럼의 최대 값 : 24000
+SELECT min(salary) FROM EMPLOYEES ; --salary 컬럼의 최소 값 : 2100
+SELECT avg(salary) FROM EMPLOYEES ;	--salary 컬럼의 평균 값 : 6461.831775700934579439252336448598130841
+SELECT sum(salary) FROM EMPLOYEES ; --salary 컬럼의 합계 	: 691416
+
+--위 5개 통계 함수를 JOB_ID = 'IT_PROG' 값을 조건식으로 똑같이 실행해보기
+SELECT count(*) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; 	--IT_PROG의 데이터 갯수 	: 5
+SELECT max(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최대 값 : 9000
+SELECT min(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최소 값 : 4200
+SELECT avg(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG';	--IT_PROG 컬럼의 평균 값 : 5760
+SELECT sum(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 합계 	: 28800
+
+-- 통계 함수 결과는 다른 컬럼 값과 같이 조회할 수 없다. (그룹 함수이기 때문입니다.)
+SELECT JOB_ID , count(*) FROM EMPLOYEES	--오류 : 단일 그룹의 그룹 함수가 아닙니다!
+WHERE job_ID ='IT_PROG';
+
+
+-- 오늘의 요약 : create table, insert into, select ~ where ~ 기본 형식 작성
+
+-- 참고 : 별칭(alias). 컬럼 또는 테이블 이름이 길 때 짧게 줄여서 쓰는 이름.
+SELECT * FROM EMPLOYEES e;	--	EMPLOYEES 테이블의 별칭 e
+SELECT * FROM DEPARTMENTS d; -- DEPARTMENTS 테이블의 별칭 d
+-- 위에서는 굳이 별칭이 필요없지만 언젠간 유용하게 쓰는 날이 온다. 알아두도록-- 제약 조건 설정은 CREATE table, alter table 에서 합니다.
+
+-- 제약 조건 1) not null : col2 컬럼은 반드시 값을 저장해야 합니다.
+CREATE table tbl# (
+	col1 varchar2(10),
+	col2 number(3) NOT NULL
+);
+
+INSERT INTO tbl#(col2) VALUES (98);
+INSERT INTO tbl#(col1) VALUES ('korean');	--오류 : col2 컬럼의 NOT NULL 제약조건 위반
+INSERT INTO tbl# VALUES ('korean',78);
+INSERT INTO tbl# VALUES ('korean',88);
+
+--확인
+SELECT * FROM tbl#;
+-----------------------------------------------------------------
+--새로운 제약조건 2) unique 를 갖는 col3
+alter table tbl# ADD col3 varchar2(10) UNIQUE; --UNIQUE 는 유일한 값이어야 합니다.
+SELECT * FROM tbl#;
+
+--다음 INSERTfmf 순서대로 실행할 때 오류가 발생하는 것은?
+INSERT INTO tbl#(col1) VALUES ('english');--오류
+INSERT INTO tbl#(col2) VALUES(77);
+INSERT INTO tbl#(col3) VALUES('english');--오류
+INSERT INTO tbl#(col1,col2) VALUES ('english',88);
+INSERT INTO tbl#(col2,col3) VALUES (88,'science');
+INSERT INTO tbl#(col1,col3) VALUES 'science',88); --오류
+--오류 : 무결성 제약 조건(C##IDEV.SYS_C008349)에 위배됩니다.
+INSERT INTO tbl#(col1,col2,col3) VALUES ('english',89,'science');
+
+INSERT INTO tbl#(col1,col2,col3) VALUES ('english',89,'math');
+-- 체크 사항 : unique 컬럼에는 null은 허용됩니다..
+SELECT * FROM tbl#;
+
+
+-- 제약 조건 3) 기본키 (primary key) 는 not null 과 unique 제약조건입니다.
+
+CREATE table tbl2# (
+	tno number(3) primary key ,
+	tid number(3) unique 
+);
+
+INSERT INTO tbl2#(tno) VALUES (123);
+SELECT * FROM tbl2#;
+--무결성 제약조건(pk 기본키 컬럼은 유일한 값이면서 not null 이어야합니다.)에 위배됩니다.
+
+INSERT INTO tbl2#(tno) VALUES (123);	--unique 
+INSERT INTO tbl2#(tid) VALUES (123);	--not null 
+SELECT * FROM tbl2#;
+
+-- 제약조건 4) check : 컬럼 값의 범위를 설정 -> age컬럼 값은 16 ~ 80 , null 허용합니다.
+alter table TBL2# ADD age number(3) check (age BETWEEN 16 AND 80); 
+INSERT INTO tbl2#(tno,tid,age) VALUES (222,123,20);
+INSERT INTO tbl2#(tno,tid,age) VALUES (223,124,90);	-- 오류 : 체크 제약조건 위배
+-- 성별 gender 컬럼 추가
+ALTER table TBL2# ADD gender char(1) check (gender IN ('M','F'));
+INSERT INTO TBL2# (tno,GENDER) VALUES (224,'F');
+INSERT INTO TBL2# (tno,GENDER) VALUES (225,'M');
+INSERT INTO TBL2# (tno,GENDER) VALUES (226,'m');	--오류 : CHECK 제약조건 위반
+
+-- 성별 gender 컬럼의 제약조건 변경은 삭제(drop) 후 추가(add) 해야합니다.
+
+ALTER  table "TBL2#" drop constraint "tbl2__chk_gender"; 
+ALTER  table "TBL2#" add constraint tbl2_chk_gender2
+check (gender IN ('M','F','m','f'));
+-- 현재 gender 컬럼의 제약조건만 변경하는 경우는 다른 명령어로 해야합니다.
+--	alter table ~ drop constraints 로 기존 제약조건 삭제해야합니다.
+INSERT INTO "TBL2#" (tno,GENDER) VALUES (226,'m');
+INSERT INTO "TBL2#" (tno,GENDER) VALUES (227,'f'); 
+CREATE TABLE student# (
+	col_st_no char(7) primary key,
+	col_name varchar2(10)  NOT NULL,
+	co1_age number(3),
+	col_add	varchar2(10) 
+);
+INSERT INTO student# values(2021001,'김모모',16,'서초구');
+INSERT INTO student# values(2019019,'강다현',18,'강남구');
+SELECT *FROM student# ;
+
+
+CREATE TABLE grade# (
+	col_st_no char(7) NOT null,
+	col_sub varchar2(10) NOT null, 
+	col_grade number (3) NOT null,	--점수
+	col_teacher varchar2 (10) NOT null,
+	col_class_term varchar2 (10) NOT NULL, --학기
+	PRIMARY KEY (col_st_no,col_sub),	--기본키 설정 (not null 그리고 unique)
+	FOREIGN KEY (col_st_no) REFERENCES student#(col_st_no)
+	--외래키 설정 REFERENCES (참조) 키워드 뒤에 참조테이블(참조컬럼)
+		--	외래키 컬럼과 참조컬럼 모두 col_st_no 로 같으면 (참조 컬럼) 생략가능
+	--외래키 컬럼은 FOREIGN KEY 키워드 뒤에 (스코어테이블 col_st_no) 안에 작성.
+	--검색해보세요. 참조 컬럼의 조건은? 기본키 또는 unique 제약 조건 컬럼만 됩니다.
+	);--기본키 외래키 중요
+INSERT INTO grade# values (2021001,'국어',89,'이나연','2022_1');
+INSERT INTO grade# values (2021001,'영어',78,'김길동','2022_1');
+INSERT INTO grade# values (2021001,'과학',67,'박세리','2021_2');
+INSERT INTO grade# values (2019019,'국어',92,'이나연','2019_2');
+INSERT INTO grade# values (2019019,'영어',85,'박지성','2019_2');
+INSERT INTO grade# values (2019019,'과학',88,'박세리','2020_1');
+SELECT *FROM grade# ;--DDL : create, alter, drop, TRUNCATE
+-- (대상은 user,table,sequence, view, .. 단 truncate 는 테이블만 사용 )
+--DML : insert, update,  delete 
+
+
+DROP TABLE students0;	--오류 : students 테이블 먼저 삭제하면
+			-- 원인 : 외래 키에 의해 참조되는 고유/기본 키가 테이블에 있습니다
+DROP TABLE scores0;
+			-- update 테이블명 set 컬럼명 - 값, 컬럼명 = 값, 컬럼명 = 값,....
+			-- WHERE 조건 컬럼 관계식
+			-- DELETE FROM 테이블명 WHERE 조건컬럼관계식
+			-- 주의할점 : update와 delete는 where 없이 사용하는 것은 위험한 동작
+			-- 			모든 데이터를 삭제할 때는 delete 대신에 TRUNCATE를 사용합니다
+			--			truncate는 실행을 취소(rollback)할 수 없기 때문에 DDL에 속합니다.
+
+SELECT * FROM students0;
+-- update, delete, select 에서 where의 컬럼이 기본키 컬럼이면
+--	실행되는 결과가 반영되는 행은 최대 1개이다
+--	기본키의 목적은 테이블의 여러행들을 구분(식별)하는 것이 목적 이므로!
+UPDATE students0 SET age = 16 WHERE STUNO = 2021001;	-- num컬럼 값이 2021001인 대상의 age 값을 17로 
+
+-- rollback , commit 테스트 (데이터베이스 메뉴에서 트랙잭션 모드를 manual로 변경합니다.)
+UPDATE students0 SET NAME = '쯔위', ADDRESS = '서초구', age = 17 WHERE STUNO = 2021001; 
+ROLLBACK;	--위의 UPDATE 실행을 취소
+SELECT * FROM STUDENTS0;	-- 다시 '서초구', 17세로 복구
+UPDATE students0 SET ADDRESS  = '성북구', age = 16 WHERE STUNO = 2021001;
+COMMIT;
+SELECT * FROM students0;		--'성북구' , 16세로 반영됨.
+ROLLBACK;			
+SELECT * FROM students0;		--이미 COMMIT이 된 명령어는 ROLLBACK 못함.
+------------------------------------------여기까지
+-- 트랜잭션 관리명령 : ROLLBACK, COMMIT
+
+
+DELETE FROM scores0;
+DELETE FROM scores0;
+SELECT * FROM scores0;
+DELETE form score WHERE STUNO = 2019019;
+SELECT * FROM scores0;
+--39라인 실행했을때
+--이 편집기는 트랜잭션 수동 모드이고 같은 창에서는 select 결과 2019019가 없습니다.
+-- 다른 편집기는 다른 클라이언트 이므로 이전 상태(최종 커밋한 상태)로 보여집니다.
+ROLLBACK;
+SELECT * FROM scores0;
+
+--------------------------------------------여기까지 두번째 예시
+TRUNCATE TABLE scores0;		--모든 데이터를 지웁니다. ROLLBACK 여부 확인?
+							--답 : rollback 불가.
+--모든데이터를 지울 것이 확실하면 다른 것들과 섞여서 롤백되지 않게 확실하게 TRUNCATE 해라.
+--------------------------------------------
+
+/*
+ *  INSERT
+ * DELETE
+ * COMMIT;		(1) 라인 43, 44
+ * UPDATE
+ * DELETE;
+ * ROLLBACK;	(2) 라인 46, 47
+ * INSERT;
+ * INSERT;
+ * ROLLBACK;	(3) 라인 49, 50
+ * INSERT
+ * UPDATE;
+ * COMMIT;		(4) 라인 52, 53
+ * 
+ */
+
+
+
+
+--1번문제 데이터 용어 10개 보고서 형식으로 정리  웹 방화벽, port,논리주소( ip), 라우터, NIC, 스위치, 물리주소(MAC), 허브, 이블
+
+--2 번문제E_R다이어그램 그리기
+--표기법 chen ,** 정보공학표기법** 그림으로 그려서 제출 테이블 3개임 간단한 구조일듯 관계 표기법 -> 정보 공학 -> 까마귀발 표기 오늘한 3가지 예시 중 하나로 시험문제 풀이
+--오라클의 시퀀스 - 자동 순서기능
+
+
+--오라클은 시퀀스를 이용하여 자동 증가 되는 값을 만들고 이를 테이블의 컬럼 값으로 insert 한다.
+-- (mysql은 다른 방법.)
+CREATE SEQUENCE test_seq1; --시퀀스 이름은 식별자(보통 테이블이름을 사용해서 작성)
+
+-- dual은 연산, 함수결과 등을 확인할 때 사용하는 임시테이블입니다.
+SELECT 2+3 FROM dual ;
+
+--시퀀스의 다음 값으로 증가해라.
+SELECT test_seq1.nextval FROM dual ;
+-- 맨처음 nextval을 실행해야 currval(시퀀스의 현재값) 실행 가능.
+SELECT test_seq1.currval FROM dual;
+
+
+
+CREATE TABLE tbl_seq (
+	tno NUMBER(7),
+	name nvarchar2(10)
+	);
+	
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'모모');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'쯔위');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'나연');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'다현');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'지효');
+
+SELECT * FROM tbl_seq ;
+
+DROP TABLE tbl_seq ;
+
+CREATE SEQUENCE test_seq2
+	INCREMENT BY 2		-- 증감 설정
+	START  WITH 20001;	-- 시작 값 -- MAXVALUE 는 최댓값
+								 -- MINVALUE 는 최댓값 도달 후 순환하는 최솟값	
+	
+SELECT test_seq2.nextval FROM dual;
+SELECT test_seq2.currval FROM dual;
+CREATE TABLE tbl_custom (	--작성자 : 강성빈
+	custom_id varchar2(20) PRIMARY key,		--기본키로 설정
+	name nvarchar2(20) NOT NULL,
+	email varchar2(20),
+	age number(3),
+	reg_date DATE DEFAULT sysdate	--default(기본값) 설정입니다.
+);
+
+-- 상품 테이블 : 카테고리 예시 A1: 전자제품, B1:식품
+CREATE TABLE tbl_product(
+	pcode varchar2(20)PRIMARY key, 	--기본키로 설정하세요.
+	category char(2) NOT NULL,
+	pname nvarchar2(20) NOT NULL,
+	price NUMBER (9) NOT null
+);
+
+-- 구매 테이블 : 어느 고객이 무슨 상품을 구입하는가?
+CREATE TABLE tbl_buy(
+	custom_id varchar2 (20) NOT NULL,
+	pcode varchar2 (20) NOT NULL,
+	quantity number (5) NOT NULL, --수량
+	buy_date DATE default sysdate 
+);
+
+INSERT into tbl_custom  VALUES ('mina012', '김미나', 'kimm@gmail.com', 20,to_date('2022-03-10 14:23:25','YYYY-MM-DD HH24:MI:SS'));
+INSERT into tbl_custom  VALUES ('hongGD', '홍길동', 'gil@korea.com', 32,to_date('2021-10-21','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('twice', '박모모', 'momo@daum.net', 29, to_date('2021-12-25','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('wonder', '이나나', 'lee@naver.com', 40,sysdate);
+SELECT * FROM tbl_custom ;
+
+
+INSERT INTO tbl_product VALUES ('IPAD011', 'A1', '아이패드10',880000);
+INSERT INTO tbl_product VALUES ('DOWON123a', 'B1', '동원참치선물세트',54000);
+INSERT INTO tbl_product VALUES ('dk_143', 'A2', '모션데스크',234500);
+SELECT * FROM tbl_product;
+
+INSERT INTO tbl_buy VALUES ('mina012', 'IPAD011', 1,to_date('2022-02-06','YYYY-MM-DD HH:MI:SS'));
+INSERT INTO tbl_buy VALUES ('hongGD', 'IPAD011', 2,to_date('2022-02-06 20:37:47','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('wonder', 'DOWON123a', 2,to_date('2022-02-06','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('mina012', 'dk_143', 2,sysdate);
+INSERT INTO tbl_buy VALUES ('twice', 'DOWON123a', 2,to_date('2022-02-09 08:49:55','YYYY-MM-DD HH24:MI:SS'));
+SELECT  * FROM  tbl_buy ;
+
+ALTER TABLE tbl_buy add	buyno number (8);
+
+SELECT * FROM tbl_buy ;
+
+
+UPDATE tbl_buy set buyno = 1001  WHERE custom_id = 'mina012'AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1002  WHERE custom_id = 'hongGD' AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1003  WHERE custom_id = 'wonder' AND PCODE = 'DOWON123a' ;
+UPDATE tbl_buy set buyno = 1004  WHERE custom_id = 'mina012' AND PCODE = 'dk_143'  ;
+UPDATE tbl_buy set buyno = 1005  WHERE custom_id = 'twice' AND PCODE = 'DOWON123a' ;
+SELECT * FROM tbl_buy ;
+ALTER TABLE tbl_buy ADD PRIMARY KEY (buyno);
+
+
+SELECT * FROM tbl_buy ;
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_custom_id FOREIGN KEY (custom_id) REFERENCES tbl_custom (custom_id); 
+ALTER table tbl_buy  ADD CONSTRAINT fk_pcode FOREIGN KEY (pcode) REFERENCES tbl_product (pcode); 
+
+CREATE SEQUENCE tblbuy_seq
+START WITH 1006;
+
+INSERT INTO tbl_buy VALUES ('wonder','IPAD011',1,to_date('2022-05-15','YYYY-MM-DD HH:MI:SS'),tblbuy_seq.nextval);
+
+SELECT  *   FROM tbl_custom WHERE age > 30;
+SELECT  EMAIL   FROM tbl_custom WHERE CUSTOM_ID =  'twice';
+SELECT   pname  FROM tbl_product  WHERE category  =  'A2';
+SELECT   MAX(PRICE)  FROM tbl_product  ;
+
+SELECT   *  FROM tbl_buy  WHERE CUSTOM_ID  = 'mina012';
+SELECT   *  FROM tbl_buy  WHERE PCODE  LIKE '%0%';
+SELECT   *  FROM tbl_buy  WHERE UPPER(PCODE)    LIKE    '%ON%';
+
+
+
+CREATE TABLE tbl_custom (	--작성자 : 강성빈
+	custom_id varchar2(20) PRIMARY key,		--기본키로 설정
+	name nvarchar2(20) NOT NULL,
+	email varchar2(20),
+	age number(3),
+	reg_date DATE DEFAULT sysdate	--default(기본값) 설정입니다.
+);
+
+-- 상품 테이블 : 카테고리 예시 A1: 전자제품, B1:식품
+CREATE TABLE tbl_product(
+	pcode varchar2(20)PRIMARY key, 	--기본키로 설정하세요.
+	category char(2) NOT NULL,
+	pname nvarchar2(20) NOT NULL,
+	price NUMBER (9) NOT null
+);
+
+-- 구매 테이블 : 어느 고객이 무슨 상품을 구입하는가?
+CREATE TABLE tbl_buy(
+	custom_id varchar2 (20) NOT NULL,
+	pcode varchar2 (20) NOT NULL,
+	quantity number (5) NOT NULL, --수량
+	buy_date DATE default sysdate 
+);
+-- Date 형식에 지정되는 패턴 설정하기 -> insert 할 때 to_date 함수 생략가능
+ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
+
+SELECT * FROM tbl_custom ;
+INSERT into tbl_custom  VALUES ('mina012', '김미나', 'kimm@gmail.com', 20,
+to_date('2022-03-10 14:23:25','YYYY-MM-DD HH24:MI:SS'));
+INSERT into tbl_custom  VALUES ('hongGD', '홍길동', 'gil@korea.com', 32,
+to_date('2021-10-21','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('twice', '박모모', 'momo@daum.net', 29,
+to_date('2021-12-25','YYYY-MM-DD'));
+INSERT into tbl_custom(custom_id, name,EMAIL,AGE)  --위와 달리 전체 컬럼에 값을 넣어주는 형식이 아니고 4개만 넣어주는 형식에서 default 형식을 이용한 방법
+VALUES ('wonder', '이나나', 'lee@naver.com', 40); --reg_date 컬럼은 default sysdate 값을 넣어준다.
+SELECT * FROM tbl_custom ;
+
+
+INSERT INTO tbl_product VALUES ('IPAD011', 'A1', '아이패드10',880000);
+INSERT INTO tbl_product VALUES ('DOWON123a', 'B1', '동원참치선물세트',54000);
+INSERT INTO tbl_product VALUES ('dk_143', 'A2', '모션데스크',234500);
+SELECT * FROM tbl_product;
+
+INSERT INTO tbl_buy VALUES ('mina012', 'IPAD011', 1,to_date('2022-02-06','YYYY-MM-DD HH:MI:SS'));
+INSERT INTO tbl_buy VALUES ('hongGD', 'IPAD011', 2,to_date('2022-02-06 20:37:47','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('wonder', 'DOWON123a', 2,to_date('2022-02-06','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy (custom_id,PCODE,QUANTITY)
+VALUES ('mina012', 'dk_143', 2);-- default 를 이용해 기본 값을 넣어준 형식
+INSERT INTO tbl_buy VALUES ('twice', 'DOWON123a', 2,to_date('2022-02-09 08:49:55','YYYY-MM-DD HH24:MI:SS'));
+SELECT  * FROM  tbl_buy ;
+
+ALTER TABLE tbl_buy add	buyno number (8);
+
+SELECT * FROM tbl_buy ;
+
+
+UPDATE tbl_buy set buyno = 1001  WHERE custom_id = 'mina012'AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1002  WHERE custom_id = 'hongGD' AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1003  WHERE custom_id = 'wonder' AND PCODE = 'DOWON123a' ;
+UPDATE tbl_buy set buyno = 1004  WHERE custom_id = 'mina012' AND PCODE = 'dk_143'  ;
+UPDATE tbl_buy set buyno = 1005  WHERE custom_id = 'twice' AND PCODE = 'DOWON123a' ;
+SELECT * FROM tbl_buy ;
+ALTER TABLE tbl_buy ADD PRIMARY KEY (buyno);
+
+
+SELECT * FROM tbl_buy ;
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_custom_id 
+FOREIGN KEY (custom_id) REFERENCES tbl_custom (custom_id); 
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_pcode 
+FOREIGN KEY (pcode) REFERENCES tbl_product (pcode); 
+
+CREATE SEQUENCE tblbuy_seq
+START WITH 1006;
+
+INSERT INTO tbl_buy(buyno,CUSTOM_ID,PCODE,QUANTITY,BUY_DATE)
+VALUES (tblbuy_seq.nextval,'wonder','IPAD011',1,
+to_date('2022-05-15','YYYY-MM-DD HH:MI:SS'));
+
+SELECT  *   FROM tbl_custom WHERE age > 30;
+SELECT  EMAIL   FROM tbl_custom WHERE CUSTOM_ID =  'twice';
+SELECT   pname  FROM tbl_product  WHERE category  =  'A2';
+SELECT   MAX(PRICE)  FROM tbl_product  ;
+
+SELECT   *  FROM tbl_buy  WHERE CUSTOM_ID  = 'mina012';
+SELECT   *  FROM tbl_buy  WHERE PCODE  LIKE '%0%';
+SELECT   *  FROM tbl_buy  WHERE UPPER(PCODE)    LIKE   '%ON%';
+
+
+
+-- SELECT 기본형식
+-- SELECT 컬럼1, 컬럼2,.... from 테이블명 WHERE 검색조건식 
+--						order by 기준컬럼 (기본은 오름 : asc, 내림 : desc)
+
+SELECT * FROM tbl_buy tb;	--INSERT 순서로 결과 출력
+SELECT * FROM TBL_CUSTOM;
+SELECT * FROM TBL_CUSTOM order BY CUSTOM_ID ;
+SELECT * FROM TBL_BUY WHERE CUSTOM_ID ='mina012';
+SELECT * FROM TBL_BUY WHERE CUSTOM_ID ='mina012'--WHERE 와 ORDER BY 를 같이 쓸 떄는 where(조건식)이 먼저 나와야한다.
+						ORDER BY BUY_DATE DESC;
+
+
+
+
+
+-- 조회할 컬럼 지정할 떄 DISTINCT 키워드 : 중복 값은 1번만 결과 출력.
+SELECT custom_id from TBL_BUY tb ;	--구매고객 ID 조회
+SELECT DISTINCT custom_id from TBL_BUY  ; --중복 값은 1번만
+
+
+--예제, custom_id 'mina012' 이 구매한 내용 조회 : pcode 조회하고 pname 은 알 수 없음
+SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012';
+
+-- 1. 서브쿼리(select 안에 select 를 사용함.)
+select pname FROM TBL_PRODUCT --외부 쿼리
+WHERE PCODE =			--조건식이  = 연산이므로 내부쿼리는 1개 행 결과이어야 함.
+(SELECT PCODE FROM TBL_BUY WHERE custom_id = 'mina012' --내부 쿼리
+ 					AND buy_date = '2022-2-6');
+ SELECT pname FROM TBL_PRODUCT  
+ WHERE PCODE IN 					--조건식이 IN 연산이므로 내부쿼리는 여러 개 행 결과 가능함.
+ 	(SELECT PCODE FROM TBL_BUY WHERE custom_id = 'mina012');
+ 	
+ -- 내부 쿼리 테스트
+ SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012'
+ 	AND BUY_DATE = '2022-2-6';
+ 	SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012';
+ 	 SELECT * FROM TBL_PRODUCT ;
+ -- 서브쿼리 문제점 : 외부쿼리가 조건식을 모든 행에 대해 검사할 때마다 내부쿼리가 실행되므로 
+ --	처리 속도에 문제가 생깁니다. --> 테이블의 조인 연산 사용으로 개선합니다.
+ 
+
+-- 2. SELECT 의 테이블 JOIN : 둘 이상의 테이블(주로 참조관계의 테이블)을 연결하여 데이터를 조회하는 명령
+-- 동등 조인 : 둘 이상의 테이블은 공통된 컬럼을 갖고 이 컬럼값이 '같다(=)'를 이용하여 join 합니다.
+-- 형식1 : select ~~~ from 테이블1 a,테이블2 b 
+--					where a.공통컬럼1=b.공통컬럼1;
+ 	
+-- 예제를 위해 상품 추가
+ 	INSERT INTO TBL_PRODUCT VALUES ('GALAXYS22','A1','갤러시s22',555600);
+ --join 키워드 없는 형식 1
+SELECT * FROM TBL_PRODUCT tp , TBL_BUY 	tb	-- 조인할 테이블 2개
+			WHERE tp.pcode = tb.pcode ;		--동등 조인.조인 컬럼으로 = 연산식.
+		
+-- JOIN 키워드를 쓰는 명령문 형식2(ANSI 표준)
+		select * FROM TBL_PRODUCT tp 
+			join TBL_BUY tb 
+			ON tp.PCODE =tb.PCODE ;
+
+-- 간단 테스트 : tbl_custom 과 tbl_buy 를 조인해보세요.
+--1
+SELECT * FROM TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE TC.custom_id = tb.CUSTOM_ID ;
+--2		
+SELECT * FROM TBL_CUSTOM tc join TBL_BUY tb ON tc.CUSTOM_ID =tb.CUSTOM_ID ;
+		
+-- 조인한 결과에서 특정 컬럼만 조회
+SELECT tc.CUSTOM_ID ,name,REG_DATE ,pcode ,quantity FROM TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE TC.custom_id = tb.CUSTOM_ID ;
+		
+-- 조인조건 외에 다른 조건을 추가
+SELECT tc.custom_id ,name reg_date, pcode , quantity 
+		from TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE tc.CUSTOM_ID = tb.CUSTOM_ID AND tc.CUSTOM_ID  = 'mina012';
+	
+-- mina012 가 구매한 상품명은 무엇인가 조회하기
+		SELECT tp.pname FROM TBL_PRODUCT tp , TBL_BUY tb 
+			WHERE tp.PCODE = tb.PCODE AND custom_id = 'mina012';
+		
+		
+		SELECT tp.pname from TBL_PRODUCT tp join TBL_BUY tb 
+		ON tp.PCODE =tb.PCODE AND custom_id ='mina012';
+		SELECT tp.pname from TBL_PRODUCT tp join TBL_BUY tb 	
+		ON tp.PCODE =tb.PCODE AND custom_id ='mina012' AND buy_date = '2022-2-6';
+		
+-- mina012 가 구매한 상품명과 가격 조회하기
+		SELECT tp.pname,tp.price FROM TBL_PRODUCT tp , TBL_BUY tb 
+			WHERE tp.PCODE = tb.PCODE AND custom_id = 'mina012';		
+--조인할 때, 이름이 같은 컬럼은 테이블명을 꼭 지정해야합니다.
+		
+		
+		
+--3개의 테이블을 조인할 수 있을까요?		
+	SELECT *FROM TBL_PRODUCT tp ,
+		(SELECT tc.custom_id cusid, name,email,age,REG_DATE, pcode, quantity, buy_date, buyno
+	FROM TBL_CUSTOM tc,TBL_BUY tb
+	WHERE tc.CUSTOM_ID= tb.CUSTOM_ID) temp	--첫번째 조인
+	WHERE tp.PCODE =temp.pcode 	; 	--두번째 조인
+	
+	--특정 컬럼만 조회하기
+SELECT tb,CUSTOM_ID ,tb.PCODE ,name, age,pname ,QUANTITY ,BUY_DATE 
+	FROM TBL_BUY tb , TBL_CUSTOM tc , TBL_PRODUCT tp 
+	WHERE tc.CUSTOM_ID =tb.CUSTOM_ID AND tp.PCODE = tb.PCODE ;
+
+--3. 외부 조인 (outer join) : = 연산을 사용하는 조인이나 한쪽의 없는(null)값도 조인결과로 포함.
+--join 키워드 없는 형식 1
+SELECT * FROM TBL_PRODUCT tp , TBL_BUY 	tb	
+			WHERE tp.pcode = tb.pcode(+) ;		--외부 조인 tbl_buy 테이블에 일치하는 pcode 값이 없어도 조인.
+		
+-- JOIN 키워드를 쓰는 명령문 형식2(ANSI 표준)
+	select * FROM TBL_PRODUCT tp 
+		LEFT outer join TBL_BUY tb 
+		ON tp.PCODE =tb.PCODE ;		--tbl_product 가 왼쪽 테이블이며 그 값을 모두 포함하여 조인.조인했을 때 NULL 이 되는 테이블의 컬럼에 (+)기호
+		
+	SELECT * FROM TBL_BUY tb 
+		RIGHT OUTER JOIN TBL_PRODUCT tp 
+		ON TB.pcode =tb.PCODE ;		--tbl_product 가 오른쪽 테이블이며 그 값을 모두 포함하여 조인--주제 : 행을 그룹화 합니다. 사용하는 순서는 아래 순서대로 지키기.
+-- SELECT 문
+-- [WHERE] 그룹화 하기 전에 사용할 조건식
+-- group BY 그룹화에 사용할 컬럼명
+-- [HAVING] 그룹화 결과에 대한 조건식
+-- [ORDER BY] 그룹화 결과 정렬할 컬럼명가 방식
+
+SELECT PCODE , COUNT(*)  FROM TBL_BUY tb group BY PCODE ;
+SELECT PCODE , COUNT(*) , SUM(QUANTITY) 
+FROM TBL_BUY tb 
+group BY PCODE 
+ORDER BY 2;			-- 조회된 컬럼의 위치 
+
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+group BY PCODE 
+ORDER BY cnt;		--그룹함수 결과의 별칭
+
+--그룹화 후에 수량합계가 3 이상만 조회
+
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+group BY PCODE 
+-- HAVING total >= 3		--HAVING 에는 컬럼 별칭 사용 못함. 테이블컬럼명은 사용할 수 있음.
+HAVING SUM(QUANTITY) >=3 
+ORDER BY cnt;		-- 그룹함수 결과의 별칭
+
+-- 구매날짜 2022-04-01 이후인 것만 그룹화하여 조회
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+WHERE BUY_DATE >= '2022=04-01'
+GROUP BY PCODE 
+ORDER BY cnt;
+-- Day2 참고 
+--통계 함수 : count, avg, max, min, sum . 통계 함수는 그룹 함수라고도 합니다.
+--			해당 함수 결과 값을 구하기 위해 특정 컬럼 사용하여 여러 데이터를 그룹화한 후 실행.
+SELECT count(*) FROM EMPLOYEES ; 	--테이블 전체 데이터 갯수 	: 107
+SELECT max(salary) FROM EMPLOYEES ; --salary 컬럼의 최대 값 : 24000
+SELECT min(salary) FROM EMPLOYEES ; --salary 컬럼의 최소 값 : 2100
+SELECT avg(salary) FROM EMPLOYEES ;	--salary 컬럼의 평균 값 : 6461.831775700934579439252336448598130841
+SELECT sum(salary) FROM EMPLOYEES ; --salary 컬럼의 합계 	: 691416
+
+--위 5개 통계 함수를 JOB_ID = 'IT_PROG' 값을 조건식으로 똑같이 실행해보기
+SELECT count(*) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; 	--IT_PROG의 데이터 갯수 	: 5
+SELECT max(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최대 값 : 9000
+SELECT min(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최소 값 : 4200
+SELECT avg(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG';	--IT_PROG 컬럼의 평균 값 : 5760
+SELECT sum(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 합계 	: 28800
+
+-- 통계 함수 결과는 다른 컬럼 값과 같이 조회할 수 없다. (그룹 함수이기 때문입니다.)
+SELECT JOB_ID , count(*) FROM EMPLOYEES	--오류 : 단일 그룹의 그룹 함수가 아닙니다!
+WHERE job_ID ='IT_PROG';-- HR 스키마를 이용하여  조인과 group by 를 포함해서 select 로 검색하는 문제를 10개 만들기
+-- group by 결과로도 조인을 할 수 있습니다.	예시: 부서인원이 가장 많은 부서는?
+--작성자 강성빈
+--1 각 월급별 월급 수령자 (명) 내역 조회 
+SELECT salary , COUNT(*) FROM EMPLOYEES e group by SALARY ; 
+
+
+--2 직종 별 직원 수와 평균 임금
+SELECT JOB_ID  , COUNT(*) ,avg(SALARY)
+FROM EMPLOYEES e 
+group by JOB_ID  
+ORDER BY 3 ;
+
+--3 평균 임금이 10000이하인 직종, 직종 별 직원 수와 평균 임금 
+SELECT JOB_ID  , COUNT(*) ,avg(SALARY)
+FROM EMPLOYEES e 
+WHERE SALARY <=10000
+group by JOB_ID  
+ORDER BY 3;
+--4 2003년 이전부터 근무한 장기근속멤버 이름
+SELECT FIRST_NAME   ,  count(JOB_ID) 
+FROM EMPLOYEES e
+WHERE HIRE_DATE <= '2003-01-01'
+group by FIRST_NAME  
+ORDER BY 2; 
+
+--5 최고위직 이름 및 임금
+SELECT FIRST_NAME  , sum(salary)
+FROM EMPLOYEES e 
+WHERE MANAGER_ID  IS null
+GROUP BY FIRST_NAME  
+ORDER BY 2;
+
+--6 최고위직 직속 직원 이름 및 임금
+SELECT FIRST_NAME  , sum(salary)
+FROM EMPLOYEES e 
+WHERE MANAGER_ID  NOT BETWEEN 101 AND 300
+GROUP BY FIRST_NAME  
+ORDER BY 2;
+
+--7 장기유지부서 ID, 장기 근속직원 및 평균 임금
+SELECT department_id , COUNT(*) num_peo , avg (SALARY) dp_avg
+FROM EMPLOYEES e 
+WHERE HIRE_DATE <= '2003-01-01'
+GROUP BY DEPARTMENT_ID 
+ORDER BY num_peo;
+
+--8 인센티브 지급 대상자 ID
+SELECT EMPLOYEE_ID  , count(*)num_peo , avg (SALARY) dp_avg
+FROM EMPLOYEES e 
+WHERE COMMISSION_PCT  > 0
+GROUP BY EMPLOYEE_ID  
+ORDER BY num_peo;
+
+-- 9 성이 King인 직원들의 개 정보
+SELECT * FROM EMPLOYEES e  WHERE LAST_NAME  = 'King';
+
+-- 10 임금 10000이상인 인센티브 지급 대상자 풀네임/ 월급 및 지급 인센티브 비율
+select FIRST_NAME,LAST_NAME,COMMISSION_PCT,SALARY  FROM EMPLOYEES e  
+WHERE EMPLOYEE_ID  in			
+(SELECT EMPLOYEE_ID  FROM EMPLOYEES e  WHERE SALARY  >= 10000
+ 					and COMMISSION_PCT  IS NOT  NULL);
+ 					
+ 				
+ 				
+ 				
+ 				
+ 				
+ 				---------------------------
+ 				
+ 				-- 부서별 평균급여를 조회합니다. 정렬은 평균급여 내림차순으로 부서-ID, 부서명, 평균급여(소수점 1자리로 반올림)
+ 				-- 오라클 소수점 관련 함수 : round(반올림), trunc(버림), ceil(내림)
+ 				
+ 				--그룹 함수 조회할 떄 group by를 써야 그룹바이에 쓴 컬럼을 SELECT 로 조회할 수 있습니다.
+ 				-- 그룹바이 컬럼외에는 다른 컬럼 select 할 수 없습니다. -> JOIN ,서브쿼리
+ 			-- 1단계 : 사용할 그룹함수 실행하기
+			select DEPARTMENT_ID , AVG(salary) FROM EMPLOYEES e group BY DEPARTMENT_ID  ;
+ 			-- 2단계 :조인하기
+ 			SELECT * FROM DEPARTMENTS d JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID ;
+ 		
+ 		-- 3단계 : 컬럼 지정하기
+ 			SELECT d.DEPARTMENT_ID ,d.DEPARTMENT_NAME ,round(tavg.cavg,1) FROM DEPARTMENTS d 
+ 			JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID 
+ 			ORDER BY tavg.cavg DESC;
+ 		
+ 		-- 4단계 : 정렬한 결과로 특정 위치 지정 : first n은 상위 n개를 조회. 
+ 				
+ 			SELECT d.DEPARTMENT_ID ,d.DEPARTMENT_NAME ,round(tavg.cavg,1) FROM DEPARTMENTS d 
+ 			JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID 
+ 			ORDER BY tavg.cavg DESC
+ 			FETCH FIRST 1 ROWS ONLY; --오라클12c 버전부터 사용합니다.
+ 			
+ 		-- 다른 예시
+ 		SELECT d.department_id did, d.department_name , e.cnt
+ 		FROM DEPARTMENTS d 
+ 		JOIN
+ 		(SELECT DEPARTMENT_ID, COUNT(*) cnt FROM EMPLOYEES e 
+ 		group BY DEPARTMENT_ID 	) e
+ 		ON d.DEPARTMENT_ID  = e.DEPARTMENT_ID 
+ 		ORDER BY cnt DESC 
+ 		FETCH FIRST 1 ROWS ONLY;
+ 		
+ 	-- 오라클의 rownum은 가상의 컬럼으로 조회된 결과에 순차적으로 오라클이 부여하는 값입니다. 
+ 	-- 가상 컬럼 사용을 위해 join이 한번 더 필요합니다.
+ 	
+ 	SELECT rownum,tcnt.*FROM
+ 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+ 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt 
+ 		WHERE rownum < 5;
+ 	
+ 	SELECT rownum,tcnt.*FROM
+ 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+ 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt 
+ 		WHERE rownum = 1;
+ 	
+ 	-- rownum 사용할 때 결과 확인이 안되는 예시 : rownum 1부터 시작해서 찾아갈 수 있는 조건식만 가능
+ 	-- where rownum =3; 
+ 	-- where rownum > 5;
+--그래서 한번더 ROWNUM 을 포함한 조회 결과로 select 를 합니다. 이때 ROWNUM 은 별칭 부여.
+ 	SELECT * FROM 
+	 	(SELECT rownum rn,tcnt.*FROM
+		 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+		 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt )
+		 		WHERE rn BETWEEN 5 AND 9 ;
+ 	-- PL/SQL : Procedure(절차, 순서) Languagae, 기존의 단순한 SQL이 확장된 언어(SQL로 만드는 프로그램)
+-- 			변수, 제어문(if,반복문)을 사용하여 프로그래밍언어와 같이 sql 실행의 흐름을 제어
+
+
+
+-- 주의 : dbeaver는 프로시저의 디버깅 기능이 없습니다. (디버깅을 하려면 sql developer 사용. )
+
+DECLARE   -- 변수선언부  
+	-- vcustomid varchar2(20);
+	-- vage number(3,0);
+	vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	vage tbl_custom.age %TYPE;
+BEGIN		--프로시저 시작
+-- 프로시저 내부에는 주로 DML 명령문들을 작성.(함께 실행해야할 여러 SQL : 트랜잭션 - 한번에 실행해야하는 SQL 묶음)
+	SELECT name,age 
+	INTO vname , vage	-- 프로시저 구문: 검색결과를 변수에 저장
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID ='hongGD';		-- 1개 행만 결과 조회되는 조건
+									-- 여러 개의 행이 조회될 때는 다른 cursor 필요.
+	
+	
+-- 변수값을 콘솔에 출력(프로시저 명령)
+	DBMS_OUTPUT.PUT_LINE('고객이름 : ' || vname);
+	DBMS_OUTPUT.PUT_LINE('고객나이 : ' || vage);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN   -- 예외 이름은 다양합니다. 예시 : no_data_found 
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');
+END;
+
+
+-- 오라클 객체 프로시저 생성 : 검색할 값을 매개변수로 전달하기
+-- 프로시저 정의 오라클에서만 실행되는 메소드로 생각하면 된다. 매개변수를 인자 값으로 가져와서 
+CREATE OR REPLACE PROCEDURE  SEARCH_custom(	---- 프로시저 이름 설정
+	c_id IN tbl_custom.CUSTOM_ID %TYPE 	-- 매개변수 IN 
+												-- 리턴 값 OUT
+
+)
+IS 
+		--일반 변수 선언
+	vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	vage tbl_custom.age %TYPE;
+BEGIN 
+	SELECT name,age 
+	INTO vname , vage	
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID =c_id;		-- 1개 행만 결과 조회되는 조건
+									
+	DBMS_OUTPUT.PUT_LINE('고객이름 : ' || vname);
+	DBMS_OUTPUT.PUT_LINE('고객나이 : ' || vage);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	
+	
+END;
+
+
+-- 프로시저 실행
+BEGIN 
+	search_custom('wonder');
+END;
+
+
+--출력(리턴값)이 있는 프로시저 정의
+
+CREATE OR REPLACE PROCEDURE  SEARCH_custom2(	---- 프로시저 이름 설정
+	c_id IN tbl_custom.CUSTOM_ID %TYPE, 	-- 매개변수 IN 입력 값
+		c_name OUT tbl_custom.NAME %TYPE 	-- 리턴 값 프로시저의 출력 OUT 
+
+)
+IS 
+		--일반 변수 선언
+	--vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	--vage tbl_custom.age %TYPE;
+BEGIN 
+	SELECT name
+	INTO c_name 	
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID =c_id;		-- 1개 행만 결과 조회되는 조건
+									
+	DBMS_OUTPUT.PUT_LINE('고객을 검사하였습니다.' || c_id);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	c_name := 'no match';   --대입문 := 기호
+	
+	
+END;
+
+
+-- 출력(리턴 값)이 있는 프로시저 실행 : 출력 값 저장을 위한 변수가 필요합니다.
+DECLARE 
+	vname tbl_custom.name %TYPE;
+BEGIN
+	search_custom2('momo', vname); -- vname 은 프로시저 정의할 때 out으로 선언.
+	--vname := search_custom2('mina012'); 이 형식은 아니다. 오해하지 말 것
+	dbms_output.put_line('*고객 이름 : ' || vname);
+END;
+
+-- BEGIN ~ END 에는 하나의 트랜잭션을 구성하는DML(insert, update, delete 위주) 명령들로 구성
+--			오류가 생기면 EXCEPTION 에서 rollback; 오류가 없을 때만 commit;
+
+-- 프로시저에 쓸 수 있는 몇 가지 SQL 
+
+CREATE TABLE tbl_temp
+AS 
+SELECT * FROM TBL_CUSTOM WHERE CUSTOM_ID ='0';
+
+-- SELECT 한 결과를 inset 하기
+INSERT INTO TBL_TEMP (SELECT * FROM TBL_CUSTOM tc WHERE CUSTOM_ID = 'wonder');
+
+
+SELECT * FROM TBL_TEMP tt ;
+
+--Function 오라클 객체의 비교
+-- 오라클 함수 : upper, lower, decode, round, to_date, to_char.....
+-- Function 은 사용자 함수로 정의합니다. 테이블을 대상으로 하는 것이 아니라 특정 데이터를 조작하는 동작.
+ 
+
+
+
+-- 데이터베이스 트리거 : INSERT ,UPDATE ,delect 할 때 동작하는 프로시저
+--			특정 테이블에 속해 있는 객체
+
+CREATE OR REPLACE TRIGGER secure_custom
+BEFORE UPDATE OR DELETE ON tbl_custom  -- 트리거 동작하는 테이블, SQL 과 시점
+BEGIN -- if 조건식 then 출력문
+	IF TO_CHAR(sysdate, 'HH24:MI') BETWEEN  '13:00' AND '15:00' THEN 
+	raise_application_error(-20000,'지금 오후 1시~3시는 작업할 수 없습니다.');
+	END IF;
+END;
+-- 트리거 동작 테스트
+DELETE FROM TBL_CUSTOM  WHERE CUSTOM_ID = 'momo';
+
+--트리거 비활성화
+ALTER TRIGGER secure_custom disalbe ;			--비활성화 disable 다시 활성화 enalbe
+
+
+
+-- 트리거에 필요한 테이블 사전에 생성.
+CREATE TABLE TBL_TEMP 
+AS
+SELECT * FROM TBL_BUY tb  WHERE CUSTOM_ID ='0';
+
+-- 트리거 정의(생성)
+
+CREATE OR REPLACE TRIGGER cancel_buy
+AFTER DELETE ON tbl_buy 
+FOR EACH ROW 		--만족(적용)하는 행이 여러 개일 때, : OLD UPDATE 또는 DELETE 하기 전 값, : NEW 는 INSERT 한 값
+BEGIN 
+	-- 구매 취소(tbl_buy테이블에서 삭제)한 데이터 tbl_temp 임시테이블에 insert : 여러 행에 대한 작업(행 트리거)
+	insert INTO tbl_temp 
+	VALUES 
+	(:OLD.custom_id,:OLD.pcode,:OLD.quantity, :OLD.buy_date, :OLD.buyno);
+END;
+
+-- 트리거 동작 테스트
+
+DELETE  FROM TBL_BUY tb WHERE CUSTOM_ID ='wonder';
+SELECT * FROM tbl_temp ;
+
+-- 추가 view 생성 연습
+-- grant resource, connect to c##idev -> 여기에는 view 생성권한은 업습니다.
+-- grant create view to c##idev; 	-> 뷰 생성권한 없는 오류 생기면 추가 권한 부여 하세요.
+CREATE VIEW v_buy
+AS
+
+SELECT tb.CUSTOM_ID ,tb.PCODE , tc.NAME , tc.EMAIL , tb.QUANTITY  
+FROM TBL_BUY tb , TBL_CUSTOM tc 
+WHERE tb.CUSTOM_ID = tc.CUSTOM_ID ;
+
+
+
+-- -- view : 가상 테이블(물리적으로 존재하지 않고 논리적으로 만들어진 테이블)
+--          ㄴ 물리적인 테이블을 이용해서 생성합니다.
+--			ㄴ 사용자(개발자)가 테이블처럼 select 를 조회를 할수 있는 테이블
+--				자주 사용되는 join 등을 미리 view 생성해서 사용합니다.
+--			ㄴ grant resource,connect to c##idev;   -> 뷰 생성권한 없는 오류 생기면 추가 권한 부여하세요.
+
+
+CREATE view v_dept
+AS
+
+select d.DEPARTMENT_ID , DEPARTMENT_NAME , e.EMPLOYEE_ID , e.FIRST_NAME , e.LAST_NAME , e.JOB_ID 
+FROM DEPARTMENTS d , EMPLOYEES e 
+WHERE d.department_id = e.DEPARTMENT_ID ;
+
+
+SELECT * FROM v_dept WHERE job_id = 'ST_CLERK';-- 데이터 가져오기 (import)
+-- 제공되는 csv 형식의 파일을 테이블로 변환할 수 있는 기능
+--		csv 파일은 데이터 항목을 , 구분하여 저장한 텍스트 파일입니다.(엑셀 또는 메모장에서 열기 가능)
+--		주의사항 : 자동으로 생성되는 테이블 컬럼의 크기가 데이터보다 작지 않게 또는 적절한 타입으로 설정해야함.
+
+-- 코드를 입력하세요
+
+-- ANIMAL_INS 테이블 행이 80187 개 정도되면 sql 쿼리의 실행속도 차이를 확인할 수 있습니다.
+--			예를 들면 서브쿼리와 조인의 sql 실행시간 비교 가능합니다.
+
+SELECT * FROM ANIMAL_INS ai ORDER BY ANIMAL_ID ;
+
+-- 데이터 내보내기(export)
+-- 현재 데이터베이스의 테이블 구조와 행(값)을 파일로 내보내기 합니다.
+-- DDL 테이블, 시퀀스 생성 명령문과 INSERT 명령들을 만들어서 .sql 파일 만듭니다.
+
+
+-- 프로그래머스 문제에서 필요한 오라클 함수 : nvl(null value) null 값을 대체하는 문자열 지정
+--					decode : 컬럼 값에 따라 출력 문자열을 지정 
+--					안 배운 함수들은 찾아보면서 하세요. 문자열 관련 함수 등등....
+
+
+-- ANSI 인코딩 형식으로 hrd_0712.sql 파일을 한꺼번에 실행시킵니다.
+
+-- 반드시 순서를 잘 고려해서 하세요.
+-- step 1
+create table member_tbl_02(
+    custno number(6) primary key,
+    custname varchar2(20),
+    phone varchar2(13),
+    address varchar2(60),
+    joindate date,
+    grade char(1),
+    city char(2)
+);
+
+create table money_tbl_02(
+    custno number(6) not null,
+    salenol number(8) not null,
+    pcost number(8),
+    amount number(4),
+    price number(8),
+    pcode varchar2(4),
+    sdate date,
+    primary key(custno,salenol),
+    foreign key(custno) references member_tbl_02(custno)
+);
+
+-- step 2
+CREATE SEQUENCE member_seq START WITH 100001;
+	
+
+-- step 3: 참조테이블 insert
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'김행복','010-111-2222','서울시 동대문구 휘경1동','2015-12-02','A','01');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'이축복','010-111-3333','서울시 동대문구 휘경2동','2015-12-06','B','01');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'장믿음','010-111-4444','울릉군 울릉읍 독도1리','2015-10-01','B','30');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'최사랑','010-111-5555','울릉군 울릉읍 독도2리','2015-11-13','A','30');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'진평화','010-111-6666','제주도 제주시 외나무골','2015-12-25','B','60');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'차공단','010-111-7777','제주도 제주시 감나무골','2015-12-11','C','60');
+
+-- step 4 : 참조하는 테이블 insert
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160001,500,5,2500,'A001','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160002,1000,4,4000,'A002','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160003,500,3,1500,'A008','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100002,20160004,2000,1,2000,'A004','2016-01-02');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100002,20160005,500,1,500,'A001','2016-01-03');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100003,20160006,1500,2,3000,'A003','2016-01-03');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160007,500,2,1000,'A001','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160008,300,1,300,'A005','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160009,600,1,600,'A006','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160010,3000,1,3000,'A007','2016-01-06');
+
+
+-- insert 결과 확인
+select * from member_tbl_02;
+select * from money_tbl_02;INSERT INTO TBL_BUY(custom_id,PCODE,QUANTITY,BUYNO)
+VALUES ('sana97', 'GALAXYS22',1,tblbuy_seq.nextval);
+
+SELECT * FROM TBL_BUY tb ;
+
+---------commit과 rollback 
+
+DELETE FROM TBL_BUY tb   WHERE CUSTOM_ID = 'sana97';
+DELETE FROM TBL_CUSTOM tc WHERE CUSTOM_ID = 'sana97';
+
+SELECT * FROM TBL_CUSTOM tc ;
+ROLLBACK;		--commit전 INSERT 취소
+
+
+
+--
+
+SELECT * FROM TBL_CUSTOM tc ;
+
+SELECT name,email FROM TBL_CUSTOM tc WHERE CUSTOM_ID ='?';  --twice 가 ?일 때로
+
+ALTER TRIGGER secure_custom disable;
+UPDATE TBL_CUSTOM SET EMAIL = 'test@gmail.com'
+WHERE CUSTOM_ID = 'twice';
+
+SELECT * FROM TBL_CUSTOM tc ;
+
+DELETE FROM TBL_CUSTOM tc WHERE CUSTOM_ID = '?';
+-- 회원이 도서를 '대여'하는 업무처리와 관련된 테이블.
+create table book_member(
+mem_idx number(5) primary key, --회원번호 
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20) unique,
+password varchar2(10)
+);
+
+create table tbl_book (
+bcode char(5) primary key,
+title varchar2(30) not null,
+writer varchar2(20),
+publisher varchar2(20),
+pdate date
+);
+
+create table tbl_bookrent(
+rent_no number(5) primary key,
+mem_idx number(5) NOT null,
+bcode char(5) NOT null,
+rent_date date not null,
+exp_date date not null,
+return_date date,
+delay_days number(3),
+CONSTRAINT fk1 foreign KEY (mem_idx) --CONSTRAINT fk1는 생략가능
+	REFERENCES book_member(mem_idx),
+	CONSTRAINT fk2 FOREIGN KEY(bcode)
+	references tbl_book(bcode)
+);
+
+--회원 번호 시퀸스
+CREATE SEQUENCE memidx_seq START WITH 10001;
+
+-- 대여 일련번호를 위한 시퀸스
+CREATE SEQUENCE bookrent_seq START WITH 1;
+--회원데이터 추가
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이하니','honey@naver.com','010-9889-0567','1122');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이세종','jong@daum.net','010-2354-6773','2345');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'최행운','lucky@korea.com','010-5467-8792','9876');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'나길동','nadong@kkk.net','010-3456-8765','3456');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'강감찬','haha@korea.net','010-3987-9087','1234');
+
+SELECT * FROM book_member ;
+
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1101','코스모스','칼세이건','사이언스북스','2006-12-01');
+--문자열에서 날짜타입으로는 자동캐스팅됩니다. 함수를 사용할 때에는 to_date() 함수를 사용합니다.
+-- 참고 : 날짜탕비을 문자열로 변환시키는 것은? to  char() 함수
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('B1101','해커스토익','이해커','해커스랩','2018-07-10');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('C1101','푸른사자 와니니','이현','창비','2015-06-20');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1102','페스트','알베르트 까뮈','민음사','2011-03-01');
+
+SELECT * FROM tbl_book ;
+
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10001,'B1101','2021-09-01 ','2021-09-15 ','2021-09-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10002,'C1101','2021-09-12 ','2021-09-26','2021-09-29');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'B1101','2021-09-03 ','2021-09-17 ','2021-09-17');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10004,'C1101','2022-06-30','2022-07-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10001,'A1101','2022-07-04 ','2022-07-18 ');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'A1102','2022-07-06 ','2022-07-20 ','2022-07-13');
+
+SELECT * FROM tbl_bookrent ;-- 회원이 도서를 '대여'하는 업무처리와 관련된 테이블.
+create table book_member(
+mem_idx number(5) primary key, --회원번호 
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20) unique,
+password varchar2(10)
+);
+
+create table tbl_book (
+bcode char(5) primary key,
+title varchar2(30) not null,
+writer varchar2(20),
+publisher varchar2(20),
+pdate date
+);
+
+create table tbl_bookrent(
+rent_no number(5) primary key,
+mem_idx number(5) NOT null,
+bcode char(5) NOT null,
+rent_date date not null,
+exp_date date not null,
+return_date date,
+delay_days number(3),
+CONSTRAINT fk1 foreign KEY (mem_idx) --CONSTRAINT fk1는 생략가능
+	REFERENCES book_member(mem_idx),
+	CONSTRAINT fk2 FOREIGN KEY(bcode)
+	references tbl_book(bcode)
+);
+
+--회원 번호 시퀸스
+CREATE SEQUENCE memidx_seq START WITH 10001;
+
+-- 대여 일련번호를 위한 시퀸스
+CREATE SEQUENCE bookrent_seq START WITH 1;
+--회원데이터 추가
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이하니','honey@naver.com','010-9889-0567','1122');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'이세종','jong@daum.net','010-2354-6773','2345');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'최행운','lucky@korea.com','010-5467-8792','9876');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'나길동','nadong@kkk.net','010-3456-8765','3456');
+INSERT INTO book_member (mem_idx,name,email,tel,password)
+VALUES (memidx_seq.nextval,'강감찬','haha@korea.net','010-3987-9087','1234');
+
+SELECT * FROM book_member ;
+
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1101','코스모스','칼세이건','사이언스북스','2006-12-01');
+--문자열에서 날짜타입으로는 자동캐스팅됩니다. 함수를 사용할 때에는 to_date() 함수를 사용합니다.
+-- 참고 : 날짜탕비을 문자열로 변환시키는 것은? to  char() 함수
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('B1101','해커스토익','이해커','해커스랩','2018-07-10');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('C1101','푸른사자 와니니','이현','창비','2015-06-20');
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+VALUES ('A1102','페스트','알베르트 까뮈','민음사','2011-03-01');
+
+SELECT * FROM tbl_book ;
+
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10001,'B1101','2021-09-01 ','2021-09-15 ','2021-09-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10002,'C1101','2021-09-12 ','2021-09-26','2021-09-29');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'B1101','2021-09-03 ','2021-09-17 ','2021-09-17');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10004,'C1101','2022-06-30','2022-07-14');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date) 
+values(bookrent_seq.nextval,10001,'A1101','2022-07-04 ','2022-07-18 ');
+insert into tbl_bookrent (rent_no,mem_idx,bcode,rent_date,exp_date,return_date) 
+values(bookrent_seq.nextval,10003,'A1102','2022-07-06 ','2022-07-20 ','2022-07-13');
+
+SELECT * FROM tbl_bookrent ;
+
+--추가하기 : 기본적인 동작은 대여날짜는 오늘, 반납기한은 오늘+14
+--alter table "C##idev".tbl_bookrent modify rent_date date default sysdate;
+--alter table "C##idev".tbl_bookrent modify exp_date date default sysdate+14;
+-- INSERT into TBL_BOOKRENT (rent_no,mem_dex,bcode)
+--values(bookrent_seq.nextval,10002,'A1102');
+
+
+--컬럼 디폴트 값 없애고 싶을 떄
+--alter table "C##idev".tbl_bookrent modify rent_date date default null;
+
+
+
+
+/*
+ * [[[[ ' 도서대여
+ * 
+ * -대여한다. : rent_date 는 대여일자, ㄷxp_date는 반납기한일자이며 rent_date + 14
+ * -반납한다. : return date 는 반납일자, delay_days는 연체일수 return date - exp_date
+ * - 대출 중인 것을 확인하는 처리조건 : return_date 가 null이면 대여중, null이 아니면 반납된 도서.
+ */
+
+
+--1)도서를 추가합니다. ‘B1102’ , ‘스트라이크 던지기’, ‘박철순’ ,’KBO’ , ‘2020-11-10’’
+INSERT INTO tbl_book (bcode,title,writer,publisher,pdate)
+values('B1102', '스트라이크 던지기', '박철순', 'KBO', '2020-11-10');
+--2)반납된 도서의 연체일수를 계산하여 delay_days 컬럼값을 update 합니다.
+UPDATE TBL_BOOKRENT SET delay_days = RETURN_date - exp_date
+WHERE RETURN_date IS NOT NULL;
+SELECT * FROM tbl_book ;
+SELECT * FROM tbl_bookrent;
+--3)현재 대출중인 도서의 연체일수계산해서 회원IDX, 도서코드, 연체 일수 조회합니다.
+-- 오늘 날짜 sysdate 는 년월일 패턴이 지정되지 않아 그냥하면 long 값으로 계산됩니다.
+SELECT mem_idx, bcode, to_date(to_char(sysdate,'yyyy-MM-dd')) - exp_date 
+FROM tbl_bookrent WHERE RETURN_date IS NULL;
+
+--4) 현재 대출 중인 도서 중 연체인 회원의 이름,전화번호를 검색합니다. 오늘 날짜 sysdate 기준으로 확인하기.!
+SELECT name,tel FROM BOOK_MEMBER bm JOIN tbl_bookrent tb
+ON bm.mem_idx = tb.mem_idx AND SYSDATE > exp_date AND RETURN_date IS NULL;
+
+--5) 현재 대출중인 도서의 도서명 코드와 도서명 검색합니다.
+SELECT tb.bcode ,title  FROM tbl_book tb JOIN tbl_bookrent tb2
+ON tb.bcode = tb2.bcode AND return_date IS NULL;
+
+
+--6) 현재 도서를 대여한 회원의 IDX와 회원이름을 검색합니다.
+SELECT bm.mem_idx , name  FROM BOOK_MEMBER bm JOIN tbl_bookrent tb
+ON bm.mem_idx = tb.mem_idx AND RETURN_date IS NULL;
+
+-- 7) 대출 중인 도서의 회원이름, 도서명, 반납기한 검색합니다.
+--join
+SELECT name, title  ,exp_date FROM tbl_book tb 
+JOIN tbl_bookrent tb2 ON tb.bcode = tb2.bcode 
+JOIN BOOK_MEMBER  bm ON bm.mem_idx =tb2.mem_idx 
+WHERE  return_date IS NULL; 
+
+-- 또는 join x
+SELECT bm.name , tb.title ,tb2.exp_date 
+FROM book_member bm, tbl_book tb, tbl_bookrent tb2
+WHERE bm.mem_idx = tb2.mem_idx AND tb.bcode = tb2.bcode 
+AND tb2.return_date IS NULL;
+
+
+
+--8)현재 연체 중인 도서의 회원IDX, 도서코드, 반납기한을 검색합니다.
+SELECT mem_idx ,bcode ,exp_date FROM tbl_bookrent tb
+WHERE sysdate > exp_date;
+--9)회원  IDX ‘10002’는 도서 대출이 가능한지 프로시저를 작성합니다.
+--CREATE OR REPLACE PROCEDURE 'WTRT' (param_index NUMBER(5))
+
+-- 일회용으로 실행하는 프로시저
+DECLARE
+	vcnt NUMBER;
+BEGIN 
+	SELECT count(*) 
+	INTO vcnt -- SELECT 조회 결과 저장할 변수. 여러개 , 로 나열할 수 있음.
+	FROM tbl_bookrent tb
+	WHERE mem_idx =10001 AND RETURN_date IS NULL;		--rcnt가 0일때만 대여가능
+	IF (vcnt = 0) THEN
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	ELSE
+	DBMS_OUTPUT.put_line('대여 중인 책을 반납해야 가능합니다.');
+	END IF;
+END;
+
+--프로시저 오라클 객체
+CREATE OR REPLACE PROCEDURE CHECK_member(
+	arg_mem IN book_member.MEM_IDX%TYPE,	-- 프로시저 실행할때 값을 받을 매개변수 
+	isOK OUT varchar2		--자바의 리턴값에 해당하는 부분
+	)
+IS 
+vcnt NUMBER;
+vname varchar2(100);
+	BEGIN 	--입력매개변수가 없는 회원인가를 확인하는 sql과 EXCEPTION 처리 . arg_mem으로 회원테이블에서 name조회
+		-- 없으면 exception 처리
+		SELECT name
+		INTO vname		--변수에 저장.
+		FROM BOOK_MEMBER bm WHERE mem_idx = arg_mem ;
+		
+	SELECT count(*) 
+	INTO vcnt 
+	FROM tbl_bookrent tb
+	WHERE mem_idx =arg_mem AND RETURN_date IS NULL;		--rcnt가 0일때만 대여가능
+	IF (vcnt = 0) THEN
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	isOK := '가능';
+	ELSE
+	DBMS_OUTPUT.put_line('대여 중인 책을 반납해야 가능합니다.');
+	isOK := '불가능';
+	END IF;
+EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('회원이 아닙니다.');	
+	isOK := 'no match'; 
+END;
+	--프로시저 실행하기
+	DECLARE
+		vresult varchar2(20);
+	BEGIN
+		CHECK_member(10003,vresult);
+		DBMS_OUTPUT.put_line('결과 : ' || vresult);
+	END;
+	
+
+
+
+--10)도서명에 ‘스트’ 라는 글자가 들어가는 도서를 검색하여 도서 대출이 가능한지 프로시저를 작성합니다. 프로시저이름은 check_book 으로 하세요.
+DECLARE
+	v_bcode varchar2(20);
+	v_cnt NUMBER;
+	BEGIN 
+	SELECT bcode  INTO v_bcode		--v_bcode는 'A1102'
+	FROM tbl_book tb WHERE title LIKE '페스트'; 		
+	SELECT count(*) INTO v_cnt		--v_cnt값이 1이면 v_bcode 책은 대출중
+			FROM tbl_bookrent tb2 WHERE bcode = v_bcode AND return_date IS NULL;
+	IF (v_cnt = 0) THEN
+	dbms_output.put_line('그 책은 대여 가능합니다.');
+	ELSE
+	dbms_output.put_line('그 책은 대여 중입니다.');
+	END IF;
+END; 
+
+--
+
+--프로시저 오라클 객체
+CREATE OR REPLACE PROCEDURE CHECK_BOOK(
+			arg_book IN tbl_book.TITLE%TYPE,	-- 프로시저 실행할때 값을 받을 매개변수 
+			isOK OUT varchar2		--자바의 리턴값에 해당하는 부분
+	)
+		IS 	
+		v_bcode varchar2(100);
+		v_cnt NUMBER;
+	BEGIN 
+	SELECT BCODE INTO v_bcode 		---v_bcode는 'A1102'
+		FROM tbl_book tb WHERE title = arg_book;
+	SELECT count(*) INTO v_cnt		-- v_cnt 값이 1이면 v_bcode 책은 대출중
+	FROM tbl_bookrent tb2 WHERE bcode = v_bcode AND return_date IS NULL; 
+	IF (v_cnt = 1) THEN
+	DBMS_OUTPUT.put_line('대여 중인 책 입니다.');
+	isOK := 'FALSE';
+	ELSE
+	DBMS_OUTPUT.put_line('책 대여 가능합니다.');
+	isOK := 'TRUE';
+	END IF;
+EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	isOK := 'no match'; 
+END;
+	--프로시저 실행하기
+	DECLARE
+		vresult varchar2(100);
+	BEGIN
+		CHECK_book('페스트',vresult); 	--코스모스, 푸른사자 와니니 는 FALSE 나머지는 TRUE
+		DBMS_OUTPUT.put_line('결과 : ' || vresult);
+	END;
+--
+
+--11)9과 10을 이용해서 insert 를 하는 프로시저를 작성합니다. 
+-- 데이터 타입 number 연습 테이블
+-- number : 자바에서 정수, 실수 타입에 해당.
+--		number(정밀도, 소수점이하자리수)
+
+-- 이미 있는 테이블 제거
+DROP TABLE TBL_NUMBER ;
+
+--	샘플 테이블 만들기
+CREATE TABLE tbl_number(
+	col1 NUMBER,		-- 정밀도 지정안하면 최대 38자리 (38자리는 자바에서 BigDecimal)
+	col2 number (5),	-- 정수로 5자리 (소수점 이하 없음)
+	col3 number (7,2),	-- 전체 7자리수, 소수점이하 2자리 고정
+	col4 number (2,5)	-- 소수점이하 5자리, 0 아닌 유효숫자 최대 2자리
+);
+-- 유효 숫자 : 12300 또는 00123 첫번째 00은 유효 값, 두번째 00은 불필요
+-- 정상 시행 값 테스트 1
+INSERT INTO tbl_number 
+VALUES (1234567,12345,12345.67,0.00012); 
+
+
+-- 오류 테스트 1	: col2 값 자리 수 초과
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,123456,12345.67,0.00012);
+
+-- 정상 테스트 2	: col3 값 소수 이하 자리 수 초과 ?
+-- 				ㄴ	자리 수 초과시 반올림해서 소수이하 2자리
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345.6789,0.00012);
+ 
+-- 오류 테스트 2 : col3 전체자리 수 (정밀도) 초과
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,123456.6789,0.00012);
+
+-- 정상 테스트 3 : col3에 소수점이하 값이 없을 때
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.00012);
+
+-- 오류 테스트 3 : col3필드 정수부분 자리 수 초과 (소수점 이하 .00)
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,123456,0.00012);
+
+-- col4 NUMBER (2,5)  --소수점이하 5자리 고정, 0 아닌 유효숫자 최대 2자리
+-- 정상 테스트 4
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.00002);
+
+
+-- 1) 저장된 값 : 0.0002
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.0002);
+-- 2) 저장된 값 : 0.00013
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.000126);
+-- 3) 오류
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0.0012);	--0.00120 앞에 00은 유효한 0, 맨 마지막 0은 불필요
+-- 4) 저장된 값 : 0
+INSERT INTO TBL_NUMBER 
+VALUES (123456789,1234,12345,0);	--0.00000
+--위의 4가지 예시 결론 : number (2,5) 에서 정밀도 < 소수점이하 자리 수, 
+-- 					2-5=-3 소수점 이하 유효 0이 3개 이상이어야 합니다.
+-- 조회
+SELECT * FROM TBL_NUMBER ;
+
+
+-- 문자열 타입
+-- CHAR(길이) : 고정길이 , 단위는 바이트 
+-- VARCHAR(길이) : 오라클에서 존재하지만 사용하지 않는 예비자료형.
+-- VARCHAR2(길이) : 가변형길이 단위 바이트, 길이는 최대길이이고 실제로 메모리는 데이터크기만큼 사용합니다.
+--				최대 2000바이트입니다. UTF-8 인코딩에서 한글은 3바이트, 영문/숫자/기호는 1바이트
+
+CREATE TABLE TBL_string(
+	acol char(10),   	-- 10바이트 고정길이
+	bcol varchar2(10),	-- 10바이트 가변길이
+	ccol nchar(10),		-- 10개 문자 고정길이
+	dcol nvarchar2(10)	-- 10개 문자 가변길이
+);
+
+-- char 타입 
+INSERT INTO TBL_string (acol) values('abcdefghij');
+INSERT INTO TBL_string (acol) values('abcdef');			-- acol은 고정길이 타입 : 공백 4개 추가
+INSERT INTO TBL_string (acol) values('abcdefghijklm');	-- 오류 : 길이 초과
+-- INSERT 확인
+SELECT * FROM TBL_string; 
+
+--한글 확인
+INSERT INTO tbl_string(acol) values ('가나다');	-- 공백 1개 추가
+INSERT INTO tbl_string(acol) values ('가나다라');	-- 오류 : 열에 대한 값이 너무 큼(실제 : 12, 최대값 : 10)
+INSERT INTO tbl_string(acol) values ('가나');		-- 공백 4개 추가
+
+-- varchar2 타입 : bcol은 가변길이 10바이트 ,가변길이이기에 10바이트보다 작은 값을 가져도 공백 추가가 없다.
+INSERT INTO TBL_string (bcol) values('abcdefghij');
+INSERT INTO TBL_string (bcol) values('abcdef');			-- bcol은 가변길이 타입 .  공백 추가 없음.
+INSERT INTO TBL_string (bcol) values('abcdefghijklm');	--오류 : 길이 초과
+-- INSERT 확인
+SELECT * FROM TBL_string; 
+--한글 확인
+INSERT INTO tbl_string(bcol) values ('가나다');	-- 공백 추가 없음.
+INSERT INTO tbl_string(bcol) values ('가나다라');	-- 오류 : 열에 대한 값이 너무 큼(실제 : 12, 최대값 : 10)
+INSERT INTO tbl_string(bcol) values ('가나');		-- 공백 추가 없음.
+
+--char과 varchar2는 바이트 단위. nchar과 nvarchar2 는 문자개수 단위(다국어 문자가 많이 포함되는 컬럼에 적절)
+--nchar 타입
+INSERT INTO tbl_string(ccol) values ('가나다');	-- 공백 7개 추가
+INSERT INTO tbl_string(ccol) values ('가나다라');	-- 공백 6개 추가
+INSERT INTO tbl_string(ccol) values ('가나');		-- 공백 8개 추가
+INSERT INTO tbl_string(ccol) values ('가나다라마바사아자차카');		-- 오류 : 길이초과 
+SELECT * FROM tbl_string;
+--nvarchar2 타입
+INSERT INTO tbl_string(dcol) values ('가나다');	-- 공백 추가 없음
+INSERT INTO tbl_string(dcol) values ('가나다라');	-- 공백 추가 없음 
+INSERT INTO tbl_string(dcol) values ('가나');		-- 공백 추가 없음
+INSERT INTO tbl_string(dcol) values ('가나다라마바사아자차카');		-- 오류 : 길이초과 
+-- 테이블 만드는 CREATE table, 데이터 형식 테스트
+
+CREATE TABLE tbl_member(
+	mno NUMBER,
+	name nvarchar2(50),
+	email varchar2(100),
+	join_date DATE		--날짜 년-월-일, 시간 시:분:초.밀리초
+); 
+
+--DML INSERT 형식 (데이터 추가)
+--모든 컬럼에 데이터를 저장하는 형식(컬럼명 생략) , 날짜는 date 자동변환
+INSERT INTO tbl_member VALUES (1, '김모모','momo@naver.com','2022-03-02');
+-- 일부 컬럼에 데이터를 저장하는 형식
+INSERT INTO tbl_member(mno,name)	-- 데이터 저장될 컬럼명 나열
+VALUES (2, '이나나');
+-------------------------------------------
+-- 2. DML SELECT 형식 (데이터 행 row 조회)
+-- SELECT 조회할 컬럼 목록 from 테이블 이름 [WHERE 조건식]; 모든 컬럼은 *(와일드카드) 로 대체
+SELECT name FROM TBL_MEMBER ;
+SELECT name,JOIN_DATE FROM TBL_MEMBER ;
+SELECT * FROM  TBL_MEMBER ;
+SELECT * FROM  TBL_MEMBER WHERE name = '최다현';  --조건식은 컬럼이름으로 조회할 관계,논리식
+SELECT * FROM  TBL_MEMBER WHERE mno > 2;
+SELECT * FROM  TBL_MEMBER WHERE JOIN_DATE > '2022-03-03';
+SELECT name,email FROM TBL_MEMBER WHERE JOIN_DATE > '2022-03-03';
+--null 값 조회
+SELECT *FROM TBL_MEMBER WHERE EMAIL IS NULL ;
+SELECT *FROM TBL_MEMBER WHERE EMAIL IS NOT NULL ;
+-- 문자열의 부분검색 : like 연산
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '%다현'; -- %는 don't care
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '다현%'; -- 조회결과는 안나온다.
+SELECT * FROM  TBL_MEMBER WHERE name LIKE '%다현%'; -- 조회결과 나온다.
+-- or 연산 : mno값이 1또는 2또는 4
+SELECT * FROM TBL_MEMBER 
+WHERE mno = 1 OR mno = 2 OR mno = 4;
+--			오라클의 or 대체 연산자 : in (동일 컬럼에 대한 조건식일 때)
+SELECT * FROM TBL_MEMBER WHERE mno IN (1,2,4);
+SELECT * FROM TBL_MEMBER WHERE mno NOT IN (1,2,4);
+SELECT * FROM TBL_MEMBER WHERE name IN ('김모모','최다현');
+
+
+
+--Date 형식
+INSERT INTO tbl_member
+VALUES (3, '최다현','dahy@naver.com','2022-03-04 16:47');	-- 오류 : 날짜형식으로 자동변환 못함.
+
+--오라클의 to_date 함수는 문자열을 날짜형식으로 변환.(두번째 인자는 패턴)
+INSERT INTO tbl_member
+VALUES (3, '최다현','dahy@naver.com',to_date('2022-03-04 16:47','YYYY-MM-DD HH24:MI'));
+
+-- to_char 함수 : 날짜형식에서 문자열로 변경합니다. 두번째 인자는 패턴-> 년도 또는 일부 값만 추출에 활용.
+SELECT to_char(join_date,'YYYY') FROM TBL_MEMBER;
+
+-- 현재 시스템의 날짜와 시간 : sysdate 함수
+INSERT INTO TBL_MEMBER VALUES (4, '쯔위','aaa@gmail.com',sysdate);
+
+SELECT * FROM TBL_MEMBER;
+
+
+-- 처음 만든 테이블 구조 중 mno 컬럼을 정밀도 5로 축소 변경
+-- 			축소 변경할 때는 mno 컬럼에 값이 없어야 합니다.
+-- 	ㄴ ALTER table "C##IDEV".TBL_MEMBER MODIFY mno number(5,0);/* 	
+ * 직원 테이블 : 직원_ID , 이름, 성, 이메일, 폰번호, 고용일자, 업무_ID, 급여, 매니저_ID, 부서_ID)
+1. hire_date가 2006년 1월 1일 이전인 직원의 이름,성,이메일 (<연산)
+
+2. lastname이 'Jones' 인 직원의 모든 컬럼 동등한 값 조회 (=연산)
+
+3. salary 가 5000 이상인 직원의 이름,성,JOB_ID 조회 (이상이하 =포함)
+
+4. JOB_ID 에 ACCOUNT 가 들어가는 직원의 이름,성,salary 조회 (like 연산)
+
+5. 부서_ID 가 50 ,60, 80,90 인 직원의 직원_ID, 이름,성 조회  (in연산)
+
+*/	--작성자 : 강성빈
+--1
+SELECT first_name, last_name, email  FROM  EMPLOYEES  WHERE hire_DATE < '2006-01-01';
+--2
+SELECT * FROM EMPLOYEES WHERE LAST_NAME = 'Jones';
+--대소문자 검사는 조건식에서 주의해야할 요인 대소문자 검사로 한다!
+--컬럼 값을 대소문자 변환 후 조건 값 비교	-> 대소문자와 무관하게 비교 가능
+SELECT * FROM EMPLOYEES WHERE UPPER(LAST_NAME)  = 'JONES';
+SELECT * FROM EMPLOYEES WHERE LOWER(LAST_NAME)  = 'jones';
+
+
+--3
+SELECT first_name, last_name, JOB_ID FROM EMPLOYEES WHERE SALARY >= 5000;
+--4
+SELECT first_name, last_name, SALARY  FROM EMPLOYEES WHERE JOB_ID LIKE '%ACCOUNT%'; 
+--5 : 데이터 타입 변환
+--5 or로 작성
+SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES 
+WHERE DEPARTMENT_ID = 50 OR DEPARTMENT_ID = 60 OR DEPARTMENT_ID = 80 OR DEPARTMENT_ID = 90;
+--5 in으로 작성
+SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN (50,60,80,90);
+--SELECT first_name, last_name, EMPLOYEE_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN ('50','60','80','90');--문자로 작성되었지만 오라클이 자동으로 형변환해주었기에 오류가 발생하지 않는다. -> 컬럼형식에 따라 number로 변환
+
+--통계 함수 : count, avg, max, min . 통계 함수는 그룹 함수라고도 합니다.
+--			해당 함수 결과 값을 구하기 위해 특정 컬럼 사용하여 여러 데이터를 그룹화한 후 실행.
+SELECT count(*) FROM EMPLOYEES ; 	--테이블 전체 데이터 갯수 	: 107
+SELECT max(salary) FROM EMPLOYEES ; --salary 컬럼의 최대 값 : 24000
+SELECT min(salary) FROM EMPLOYEES ; --salary 컬럼의 최소 값 : 2100
+SELECT avg(salary) FROM EMPLOYEES ;	--salary 컬럼의 평균 값 : 6461.831775700934579439252336448598130841
+SELECT sum(salary) FROM EMPLOYEES ; --salary 컬럼의 합계 	: 691416
+
+--위 5개 통계 함수를 JOB_ID = 'IT_PROG' 값을 조건식으로 똑같이 실행해보기
+SELECT count(*) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; 	--IT_PROG의 데이터 갯수 	: 5
+SELECT max(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최대 값 : 9000
+SELECT min(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최소 값 : 4200
+SELECT avg(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG';	--IT_PROG 컬럼의 평균 값 : 5760
+SELECT sum(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 합계 	: 28800
+
+-- 통계 함수 결과는 다른 컬럼 값과 같이 조회할 수 없다. (그룹 함수이기 때문입니다.)
+SELECT JOB_ID , count(*) FROM EMPLOYEES	--오류 : 단일 그룹의 그룹 함수가 아닙니다!
+WHERE job_ID ='IT_PROG';
+
+
+-- 오늘의 요약 : create table, insert into, select ~ where ~ 기본 형식 작성
+
+-- 참고 : 별칭(alias). 컬럼 또는 테이블 이름이 길 때 짧게 줄여서 쓰는 이름.
+SELECT * FROM EMPLOYEES e;	--	EMPLOYEES 테이블의 별칭 e
+SELECT * FROM DEPARTMENTS d; -- DEPARTMENTS 테이블의 별칭 d
+-- 위에서는 굳이 별칭이 필요없지만 언젠간 유용하게 쓰는 날이 온다. 알아두도록-- 제약 조건 설정은 CREATE table, alter table 에서 합니다.
+
+-- 제약 조건 1) not null : col2 컬럼은 반드시 값을 저장해야 합니다.
+CREATE table tbl# (
+	col1 varchar2(10),
+	col2 number(3) NOT NULL
+);
+
+INSERT INTO tbl#(col2) VALUES (98);
+INSERT INTO tbl#(col1) VALUES ('korean');	--오류 : col2 컬럼의 NOT NULL 제약조건 위반
+INSERT INTO tbl# VALUES ('korean',78);
+INSERT INTO tbl# VALUES ('korean',88);
+
+--확인
+SELECT * FROM tbl#;
+-----------------------------------------------------------------
+--새로운 제약조건 2) unique 를 갖는 col3
+alter table tbl# ADD col3 varchar2(10) UNIQUE; --UNIQUE 는 유일한 값이어야 합니다.
+SELECT * FROM tbl#;
+
+--다음 INSERTfmf 순서대로 실행할 때 오류가 발생하는 것은?
+INSERT INTO tbl#(col1) VALUES ('english');--오류
+INSERT INTO tbl#(col2) VALUES(77);
+INSERT INTO tbl#(col3) VALUES('english');--오류
+INSERT INTO tbl#(col1,col2) VALUES ('english',88);
+INSERT INTO tbl#(col2,col3) VALUES (88,'science');
+INSERT INTO tbl#(col1,col3) VALUES 'science',88); --오류
+--오류 : 무결성 제약 조건(C##IDEV.SYS_C008349)에 위배됩니다.
+INSERT INTO tbl#(col1,col2,col3) VALUES ('english',89,'science');
+
+INSERT INTO tbl#(col1,col2,col3) VALUES ('english',89,'math');
+-- 체크 사항 : unique 컬럼에는 null은 허용됩니다..
+SELECT * FROM tbl#;
+
+
+-- 제약 조건 3) 기본키 (primary key) 는 not null 과 unique 제약조건입니다.
+
+CREATE table tbl2# (
+	tno number(3) primary key ,
+	tid number(3) unique 
+);
+
+INSERT INTO tbl2#(tno) VALUES (123);
+SELECT * FROM tbl2#;
+--무결성 제약조건(pk 기본키 컬럼은 유일한 값이면서 not null 이어야합니다.)에 위배됩니다.
+
+INSERT INTO tbl2#(tno) VALUES (123);	--unique 
+INSERT INTO tbl2#(tid) VALUES (123);	--not null 
+SELECT * FROM tbl2#;
+
+-- 제약조건 4) check : 컬럼 값의 범위를 설정 -> age컬럼 값은 16 ~ 80 , null 허용합니다.
+alter table TBL2# ADD age number(3) check (age BETWEEN 16 AND 80); 
+INSERT INTO tbl2#(tno,tid,age) VALUES (222,123,20);
+INSERT INTO tbl2#(tno,tid,age) VALUES (223,124,90);	-- 오류 : 체크 제약조건 위배
+-- 성별 gender 컬럼 추가
+ALTER table TBL2# ADD gender char(1) check (gender IN ('M','F'));
+INSERT INTO TBL2# (tno,GENDER) VALUES (224,'F');
+INSERT INTO TBL2# (tno,GENDER) VALUES (225,'M');
+INSERT INTO TBL2# (tno,GENDER) VALUES (226,'m');	--오류 : CHECK 제약조건 위반
+
+-- 성별 gender 컬럼의 제약조건 변경은 삭제(drop) 후 추가(add) 해야합니다.
+
+ALTER  table "TBL2#" drop constraint "tbl2__chk_gender"; 
+ALTER  table "TBL2#" add constraint tbl2_chk_gender2
+check (gender IN ('M','F','m','f'));
+-- 현재 gender 컬럼의 제약조건만 변경하는 경우는 다른 명령어로 해야합니다.
+--	alter table ~ drop constraints 로 기존 제약조건 삭제해야합니다.
+INSERT INTO "TBL2#" (tno,GENDER) VALUES (226,'m');
+INSERT INTO "TBL2#" (tno,GENDER) VALUES (227,'f'); 
+CREATE TABLE student# (
+	col_st_no char(7) primary key,
+	col_name varchar2(10)  NOT NULL,
+	co1_age number(3),
+	col_add	varchar2(10) 
+);
+INSERT INTO student# values(2021001,'김모모',16,'서초구');
+INSERT INTO student# values(2019019,'강다현',18,'강남구');
+SELECT *FROM student# ;
+
+
+CREATE TABLE grade# (
+	col_st_no char(7) NOT null,
+	col_sub varchar2(10) NOT null, 
+	col_grade number (3) NOT null,	--점수
+	col_teacher varchar2 (10) NOT null,
+	col_class_term varchar2 (10) NOT NULL, --학기
+	PRIMARY KEY (col_st_no,col_sub),	--기본키 설정 (not null 그리고 unique)
+	FOREIGN KEY (col_st_no) REFERENCES student#(col_st_no)
+	--외래키 설정 REFERENCES (참조) 키워드 뒤에 참조테이블(참조컬럼)
+		--	외래키 컬럼과 참조컬럼 모두 col_st_no 로 같으면 (참조 컬럼) 생략가능
+	--외래키 컬럼은 FOREIGN KEY 키워드 뒤에 (스코어테이블 col_st_no) 안에 작성.
+	--검색해보세요. 참조 컬럼의 조건은? 기본키 또는 unique 제약 조건 컬럼만 됩니다.
+	);--기본키 외래키 중요
+INSERT INTO grade# values (2021001,'국어',89,'이나연','2022_1');
+INSERT INTO grade# values (2021001,'영어',78,'김길동','2022_1');
+INSERT INTO grade# values (2021001,'과학',67,'박세리','2021_2');
+INSERT INTO grade# values (2019019,'국어',92,'이나연','2019_2');
+INSERT INTO grade# values (2019019,'영어',85,'박지성','2019_2');
+INSERT INTO grade# values (2019019,'과학',88,'박세리','2020_1');
+SELECT *FROM grade# ;--DDL : create, alter, drop, TRUNCATE
+-- (대상은 user,table,sequence, view, .. 단 truncate 는 테이블만 사용 )
+--DML : insert, update,  delete 
+
+
+DROP TABLE students0;	--오류 : students 테이블 먼저 삭제하면
+			-- 원인 : 외래 키에 의해 참조되는 고유/기본 키가 테이블에 있습니다
+DROP TABLE scores0;
+			-- update 테이블명 set 컬럼명 - 값, 컬럼명 = 값, 컬럼명 = 값,....
+			-- WHERE 조건 컬럼 관계식
+			-- DELETE FROM 테이블명 WHERE 조건컬럼관계식
+			-- 주의할점 : update와 delete는 where 없이 사용하는 것은 위험한 동작
+			-- 			모든 데이터를 삭제할 때는 delete 대신에 TRUNCATE를 사용합니다
+			--			truncate는 실행을 취소(rollback)할 수 없기 때문에 DDL에 속합니다.
+
+SELECT * FROM students0;
+-- update, delete, select 에서 where의 컬럼이 기본키 컬럼이면
+--	실행되는 결과가 반영되는 행은 최대 1개이다
+--	기본키의 목적은 테이블의 여러행들을 구분(식별)하는 것이 목적 이므로!
+UPDATE students0 SET age = 16 WHERE STUNO = 2021001;	-- num컬럼 값이 2021001인 대상의 age 값을 17로 
+
+-- rollback , commit 테스트 (데이터베이스 메뉴에서 트랙잭션 모드를 manual로 변경합니다.)
+UPDATE students0 SET NAME = '쯔위', ADDRESS = '서초구', age = 17 WHERE STUNO = 2021001; 
+ROLLBACK;	--위의 UPDATE 실행을 취소
+SELECT * FROM STUDENTS0;	-- 다시 '서초구', 17세로 복구
+UPDATE students0 SET ADDRESS  = '성북구', age = 16 WHERE STUNO = 2021001;
+COMMIT;
+SELECT * FROM students0;		--'성북구' , 16세로 반영됨.
+ROLLBACK;			
+SELECT * FROM students0;		--이미 COMMIT이 된 명령어는 ROLLBACK 못함.
+------------------------------------------여기까지
+-- 트랜잭션 관리명령 : ROLLBACK, COMMIT
+
+
+DELETE FROM scores0;
+DELETE FROM scores0;
+SELECT * FROM scores0;
+DELETE form score WHERE STUNO = 2019019;
+SELECT * FROM scores0;
+--39라인 실행했을때
+--이 편집기는 트랜잭션 수동 모드이고 같은 창에서는 select 결과 2019019가 없습니다.
+-- 다른 편집기는 다른 클라이언트 이므로 이전 상태(최종 커밋한 상태)로 보여집니다.
+ROLLBACK;
+SELECT * FROM scores0;
+
+--------------------------------------------여기까지 두번째 예시
+TRUNCATE TABLE scores0;		--모든 데이터를 지웁니다. ROLLBACK 여부 확인?
+							--답 : rollback 불가.
+--모든데이터를 지울 것이 확실하면 다른 것들과 섞여서 롤백되지 않게 확실하게 TRUNCATE 해라.
+--------------------------------------------
+
+/*
+ *  INSERT
+ * DELETE
+ * COMMIT;		(1) 라인 43, 44
+ * UPDATE
+ * DELETE;
+ * ROLLBACK;	(2) 라인 46, 47
+ * INSERT;
+ * INSERT;
+ * ROLLBACK;	(3) 라인 49, 50
+ * INSERT
+ * UPDATE;
+ * COMMIT;		(4) 라인 52, 53
+ * 
+ */
+
+
+
+
+--1번문제 데이터 용어 10개 보고서 형식으로 정리  웹 방화벽, port,논리주소( ip), 라우터, NIC, 스위치, 물리주소(MAC), 허브, 이블
+
+--2 번문제E_R다이어그램 그리기
+--표기법 chen ,** 정보공학표기법** 그림으로 그려서 제출 테이블 3개임 간단한 구조일듯 관계 표기법 -> 정보 공학 -> 까마귀발 표기 오늘한 3가지 예시 중 하나로 시험문제 풀이
+--오라클의 시퀀스 - 자동 순서기능
+
+
+--오라클은 시퀀스를 이용하여 자동 증가 되는 값을 만들고 이를 테이블의 컬럼 값으로 insert 한다.
+-- (mysql은 다른 방법.)
+CREATE SEQUENCE test_seq1; --시퀀스 이름은 식별자(보통 테이블이름을 사용해서 작성)
+
+-- dual은 연산, 함수결과 등을 확인할 때 사용하는 임시테이블입니다.
+SELECT 2+3 FROM dual ;
+
+--시퀀스의 다음 값으로 증가해라.
+SELECT test_seq1.nextval FROM dual ;
+-- 맨처음 nextval을 실행해야 currval(시퀀스의 현재값) 실행 가능.
+SELECT test_seq1.currval FROM dual;
+
+
+
+CREATE TABLE tbl_seq (
+	tno NUMBER(7),
+	name nvarchar2(10)
+	);
+	
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'모모');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'쯔위');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'나연');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'다현');
+INSERT INTO tbl_seq(tno,name) VALUES (test_seq1.nextval,'지효');
+
+SELECT * FROM tbl_seq ;
+
+DROP TABLE tbl_seq ;
+
+CREATE SEQUENCE test_seq2
+	INCREMENT BY 2		-- 증감 설정
+	START  WITH 20001;	-- 시작 값 -- MAXVALUE 는 최댓값
+								 -- MINVALUE 는 최댓값 도달 후 순환하는 최솟값	
+	
+SELECT test_seq2.nextval FROM dual;
+SELECT test_seq2.currval FROM dual;
+CREATE TABLE tbl_custom (	--작성자 : 강성빈
+	custom_id varchar2(20) PRIMARY key,		--기본키로 설정
+	name nvarchar2(20) NOT NULL,
+	email varchar2(20),
+	age number(3),
+	reg_date DATE DEFAULT sysdate	--default(기본값) 설정입니다.
+);
+
+-- 상품 테이블 : 카테고리 예시 A1: 전자제품, B1:식품
+CREATE TABLE tbl_product(
+	pcode varchar2(20)PRIMARY key, 	--기본키로 설정하세요.
+	category char(2) NOT NULL,
+	pname nvarchar2(20) NOT NULL,
+	price NUMBER (9) NOT null
+);
+
+-- 구매 테이블 : 어느 고객이 무슨 상품을 구입하는가?
+CREATE TABLE tbl_buy(
+	custom_id varchar2 (20) NOT NULL,
+	pcode varchar2 (20) NOT NULL,
+	quantity number (5) NOT NULL, --수량
+	buy_date DATE default sysdate 
+);
+
+INSERT into tbl_custom  VALUES ('mina012', '김미나', 'kimm@gmail.com', 20,to_date('2022-03-10 14:23:25','YYYY-MM-DD HH24:MI:SS'));
+INSERT into tbl_custom  VALUES ('hongGD', '홍길동', 'gil@korea.com', 32,to_date('2021-10-21','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('twice', '박모모', 'momo@daum.net', 29, to_date('2021-12-25','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('wonder', '이나나', 'lee@naver.com', 40,sysdate);
+SELECT * FROM tbl_custom ;
+
+
+INSERT INTO tbl_product VALUES ('IPAD011', 'A1', '아이패드10',880000);
+INSERT INTO tbl_product VALUES ('DOWON123a', 'B1', '동원참치선물세트',54000);
+INSERT INTO tbl_product VALUES ('dk_143', 'A2', '모션데스크',234500);
+SELECT * FROM tbl_product;
+
+INSERT INTO tbl_buy VALUES ('mina012', 'IPAD011', 1,to_date('2022-02-06','YYYY-MM-DD HH:MI:SS'));
+INSERT INTO tbl_buy VALUES ('hongGD', 'IPAD011', 2,to_date('2022-02-06 20:37:47','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('wonder', 'DOWON123a', 2,to_date('2022-02-06','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('mina012', 'dk_143', 2,sysdate);
+INSERT INTO tbl_buy VALUES ('twice', 'DOWON123a', 2,to_date('2022-02-09 08:49:55','YYYY-MM-DD HH24:MI:SS'));
+SELECT  * FROM  tbl_buy ;
+
+ALTER TABLE tbl_buy add	buyno number (8);
+
+SELECT * FROM tbl_buy ;
+
+
+UPDATE tbl_buy set buyno = 1001  WHERE custom_id = 'mina012'AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1002  WHERE custom_id = 'hongGD' AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1003  WHERE custom_id = 'wonder' AND PCODE = 'DOWON123a' ;
+UPDATE tbl_buy set buyno = 1004  WHERE custom_id = 'mina012' AND PCODE = 'dk_143'  ;
+UPDATE tbl_buy set buyno = 1005  WHERE custom_id = 'twice' AND PCODE = 'DOWON123a' ;
+SELECT * FROM tbl_buy ;
+ALTER TABLE tbl_buy ADD PRIMARY KEY (buyno);
+
+
+SELECT * FROM tbl_buy ;
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_custom_id FOREIGN KEY (custom_id) REFERENCES tbl_custom (custom_id); 
+ALTER table tbl_buy  ADD CONSTRAINT fk_pcode FOREIGN KEY (pcode) REFERENCES tbl_product (pcode); 
+
+CREATE SEQUENCE tblbuy_seq
+START WITH 1006;
+
+INSERT INTO tbl_buy VALUES ('wonder','IPAD011',1,to_date('2022-05-15','YYYY-MM-DD HH:MI:SS'),tblbuy_seq.nextval);
+
+SELECT  *   FROM tbl_custom WHERE age > 30;
+SELECT  EMAIL   FROM tbl_custom WHERE CUSTOM_ID =  'twice';
+SELECT   pname  FROM tbl_product  WHERE category  =  'A2';
+SELECT   MAX(PRICE)  FROM tbl_product  ;
+
+SELECT   *  FROM tbl_buy  WHERE CUSTOM_ID  = 'mina012';
+SELECT   *  FROM tbl_buy  WHERE PCODE  LIKE '%0%';
+SELECT   *  FROM tbl_buy  WHERE UPPER(PCODE)    LIKE    '%ON%';
+
+
+
+CREATE TABLE tbl_custom (	--작성자 : 강성빈
+	custom_id varchar2(20) PRIMARY key,		--기본키로 설정
+	name nvarchar2(20) NOT NULL,
+	email varchar2(20),
+	age number(3),
+	reg_date DATE DEFAULT sysdate	--default(기본값) 설정입니다.
+);
+
+-- 상품 테이블 : 카테고리 예시 A1: 전자제품, B1:식품
+CREATE TABLE tbl_product(
+	pcode varchar2(20)PRIMARY key, 	--기본키로 설정하세요.
+	category char(2) NOT NULL,
+	pname nvarchar2(20) NOT NULL,
+	price NUMBER (9) NOT null
+);
+
+-- 구매 테이블 : 어느 고객이 무슨 상품을 구입하는가?
+CREATE TABLE tbl_buy(
+	custom_id varchar2 (20) NOT NULL,
+	pcode varchar2 (20) NOT NULL,
+	quantity number (5) NOT NULL, --수량
+	buy_date DATE default sysdate 
+);
+-- Date 형식에 지정되는 패턴 설정하기 -> insert 할 때 to_date 함수 생략가능
+ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS';
+
+SELECT * FROM tbl_custom ;
+INSERT into tbl_custom  VALUES ('mina012', '김미나', 'kimm@gmail.com', 20,
+to_date('2022-03-10 14:23:25','YYYY-MM-DD HH24:MI:SS'));
+INSERT into tbl_custom  VALUES ('hongGD', '홍길동', 'gil@korea.com', 32,
+to_date('2021-10-21','YYYY-MM-DD'));
+INSERT into tbl_custom  VALUES ('twice', '박모모', 'momo@daum.net', 29,
+to_date('2021-12-25','YYYY-MM-DD'));
+INSERT into tbl_custom(custom_id, name,EMAIL,AGE)  --위와 달리 전체 컬럼에 값을 넣어주는 형식이 아니고 4개만 넣어주는 형식에서 default 형식을 이용한 방법
+VALUES ('wonder', '이나나', 'lee@naver.com', 40); --reg_date 컬럼은 default sysdate 값을 넣어준다.
+SELECT * FROM tbl_custom ;
+
+
+INSERT INTO tbl_product VALUES ('IPAD011', 'A1', '아이패드10',880000);
+INSERT INTO tbl_product VALUES ('DOWON123a', 'B1', '동원참치선물세트',54000);
+INSERT INTO tbl_product VALUES ('dk_143', 'A2', '모션데스크',234500);
+SELECT * FROM tbl_product;
+
+INSERT INTO tbl_buy VALUES ('mina012', 'IPAD011', 1,to_date('2022-02-06','YYYY-MM-DD HH:MI:SS'));
+INSERT INTO tbl_buy VALUES ('hongGD', 'IPAD011', 2,to_date('2022-02-06 20:37:47','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy VALUES ('wonder', 'DOWON123a', 2,to_date('2022-02-06','YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO tbl_buy (custom_id,PCODE,QUANTITY)
+VALUES ('mina012', 'dk_143', 2);-- default 를 이용해 기본 값을 넣어준 형식
+INSERT INTO tbl_buy VALUES ('twice', 'DOWON123a', 2,to_date('2022-02-09 08:49:55','YYYY-MM-DD HH24:MI:SS'));
+SELECT  * FROM  tbl_buy ;
+
+ALTER TABLE tbl_buy add	buyno number (8);
+
+SELECT * FROM tbl_buy ;
+
+
+UPDATE tbl_buy set buyno = 1001  WHERE custom_id = 'mina012'AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1002  WHERE custom_id = 'hongGD' AND PCODE = 'IPAD011';
+UPDATE tbl_buy set buyno = 1003  WHERE custom_id = 'wonder' AND PCODE = 'DOWON123a' ;
+UPDATE tbl_buy set buyno = 1004  WHERE custom_id = 'mina012' AND PCODE = 'dk_143'  ;
+UPDATE tbl_buy set buyno = 1005  WHERE custom_id = 'twice' AND PCODE = 'DOWON123a' ;
+SELECT * FROM tbl_buy ;
+ALTER TABLE tbl_buy ADD PRIMARY KEY (buyno);
+
+
+SELECT * FROM tbl_buy ;
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_custom_id 
+FOREIGN KEY (custom_id) REFERENCES tbl_custom (custom_id); 
+
+ALTER table tbl_buy  ADD CONSTRAINT fk_pcode 
+FOREIGN KEY (pcode) REFERENCES tbl_product (pcode); 
+
+CREATE SEQUENCE tblbuy_seq
+START WITH 1006;
+
+INSERT INTO tbl_buy(buyno,CUSTOM_ID,PCODE,QUANTITY,BUY_DATE)
+VALUES (tblbuy_seq.nextval,'wonder','IPAD011',1,
+to_date('2022-05-15','YYYY-MM-DD HH:MI:SS'));
+
+SELECT  *   FROM tbl_custom WHERE age > 30;
+SELECT  EMAIL   FROM tbl_custom WHERE CUSTOM_ID =  'twice';
+SELECT   pname  FROM tbl_product  WHERE category  =  'A2';
+SELECT   MAX(PRICE)  FROM tbl_product  ;
+
+SELECT   *  FROM tbl_buy  WHERE CUSTOM_ID  = 'mina012';
+SELECT   *  FROM tbl_buy  WHERE PCODE  LIKE '%0%';
+SELECT   *  FROM tbl_buy  WHERE UPPER(PCODE)    LIKE   '%ON%';
+
+
+
+-- SELECT 기본형식
+-- SELECT 컬럼1, 컬럼2,.... from 테이블명 WHERE 검색조건식 
+--						order by 기준컬럼 (기본은 오름 : asc, 내림 : desc)
+
+SELECT * FROM tbl_buy tb;	--INSERT 순서로 결과 출력
+SELECT * FROM TBL_CUSTOM;
+SELECT * FROM TBL_CUSTOM order BY CUSTOM_ID ;
+SELECT * FROM TBL_BUY WHERE CUSTOM_ID ='mina012';
+SELECT * FROM TBL_BUY WHERE CUSTOM_ID ='mina012'--WHERE 와 ORDER BY 를 같이 쓸 떄는 where(조건식)이 먼저 나와야한다.
+						ORDER BY BUY_DATE DESC;
+
+
+
+
+
+-- 조회할 컬럼 지정할 떄 DISTINCT 키워드 : 중복 값은 1번만 결과 출력.
+SELECT custom_id from TBL_BUY tb ;	--구매고객 ID 조회
+SELECT DISTINCT custom_id from TBL_BUY  ; --중복 값은 1번만
+
+
+--예제, custom_id 'mina012' 이 구매한 내용 조회 : pcode 조회하고 pname 은 알 수 없음
+SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012';
+
+-- 1. 서브쿼리(select 안에 select 를 사용함.)
+select pname FROM TBL_PRODUCT --외부 쿼리
+WHERE PCODE =			--조건식이  = 연산이므로 내부쿼리는 1개 행 결과이어야 함.
+(SELECT PCODE FROM TBL_BUY WHERE custom_id = 'mina012' --내부 쿼리
+ 					AND buy_date = '2022-2-6');
+ SELECT pname FROM TBL_PRODUCT  
+ WHERE PCODE IN 					--조건식이 IN 연산이므로 내부쿼리는 여러 개 행 결과 가능함.
+ 	(SELECT PCODE FROM TBL_BUY WHERE custom_id = 'mina012');
+ 	
+ -- 내부 쿼리 테스트
+ SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012'
+ 	AND BUY_DATE = '2022-2-6';
+ 	SELECT pcode FROM TBL_BUY WHERE CUSTOM_ID = 'mina012';
+ 	 SELECT * FROM TBL_PRODUCT ;
+ -- 서브쿼리 문제점 : 외부쿼리가 조건식을 모든 행에 대해 검사할 때마다 내부쿼리가 실행되므로 
+ --	처리 속도에 문제가 생깁니다. --> 테이블의 조인 연산 사용으로 개선합니다.
+ 
+
+-- 2. SELECT 의 테이블 JOIN : 둘 이상의 테이블(주로 참조관계의 테이블)을 연결하여 데이터를 조회하는 명령
+-- 동등 조인 : 둘 이상의 테이블은 공통된 컬럼을 갖고 이 컬럼값이 '같다(=)'를 이용하여 join 합니다.
+-- 형식1 : select ~~~ from 테이블1 a,테이블2 b 
+--					where a.공통컬럼1=b.공통컬럼1;
+ 	
+-- 예제를 위해 상품 추가
+ 	INSERT INTO TBL_PRODUCT VALUES ('GALAXYS22','A1','갤러시s22',555600);
+ --join 키워드 없는 형식 1
+SELECT * FROM TBL_PRODUCT tp , TBL_BUY 	tb	-- 조인할 테이블 2개
+			WHERE tp.pcode = tb.pcode ;		--동등 조인.조인 컬럼으로 = 연산식.
+		
+-- JOIN 키워드를 쓰는 명령문 형식2(ANSI 표준)
+		select * FROM TBL_PRODUCT tp 
+			join TBL_BUY tb 
+			ON tp.PCODE =tb.PCODE ;
+
+-- 간단 테스트 : tbl_custom 과 tbl_buy 를 조인해보세요.
+--1
+SELECT * FROM TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE TC.custom_id = tb.CUSTOM_ID ;
+--2		
+SELECT * FROM TBL_CUSTOM tc join TBL_BUY tb ON tc.CUSTOM_ID =tb.CUSTOM_ID ;
+		
+-- 조인한 결과에서 특정 컬럼만 조회
+SELECT tc.CUSTOM_ID ,name,REG_DATE ,pcode ,quantity FROM TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE TC.custom_id = tb.CUSTOM_ID ;
+		
+-- 조인조건 외에 다른 조건을 추가
+SELECT tc.custom_id ,name reg_date, pcode , quantity 
+		from TBL_CUSTOM tc ,TBL_BUY tb 
+		WHERE tc.CUSTOM_ID = tb.CUSTOM_ID AND tc.CUSTOM_ID  = 'mina012';
+	
+-- mina012 가 구매한 상품명은 무엇인가 조회하기
+		SELECT tp.pname FROM TBL_PRODUCT tp , TBL_BUY tb 
+			WHERE tp.PCODE = tb.PCODE AND custom_id = 'mina012';
+		
+		
+		SELECT tp.pname from TBL_PRODUCT tp join TBL_BUY tb 
+		ON tp.PCODE =tb.PCODE AND custom_id ='mina012';
+		SELECT tp.pname from TBL_PRODUCT tp join TBL_BUY tb 	
+		ON tp.PCODE =tb.PCODE AND custom_id ='mina012' AND buy_date = '2022-2-6';
+		
+-- mina012 가 구매한 상품명과 가격 조회하기
+		SELECT tp.pname,tp.price FROM TBL_PRODUCT tp , TBL_BUY tb 
+			WHERE tp.PCODE = tb.PCODE AND custom_id = 'mina012';		
+--조인할 때, 이름이 같은 컬럼은 테이블명을 꼭 지정해야합니다.
+		
+		
+		
+--3개의 테이블을 조인할 수 있을까요?		
+	SELECT *FROM TBL_PRODUCT tp ,
+		(SELECT tc.custom_id cusid, name,email,age,REG_DATE, pcode, quantity, buy_date, buyno
+	FROM TBL_CUSTOM tc,TBL_BUY tb
+	WHERE tc.CUSTOM_ID= tb.CUSTOM_ID) temp	--첫번째 조인
+	WHERE tp.PCODE =temp.pcode 	; 	--두번째 조인
+	
+	--특정 컬럼만 조회하기
+SELECT tb,CUSTOM_ID ,tb.PCODE ,name, age,pname ,QUANTITY ,BUY_DATE 
+	FROM TBL_BUY tb , TBL_CUSTOM tc , TBL_PRODUCT tp 
+	WHERE tc.CUSTOM_ID =tb.CUSTOM_ID AND tp.PCODE = tb.PCODE ;
+
+--3. 외부 조인 (outer join) : = 연산을 사용하는 조인이나 한쪽의 없는(null)값도 조인결과로 포함.
+--join 키워드 없는 형식 1
+SELECT * FROM TBL_PRODUCT tp , TBL_BUY 	tb	
+			WHERE tp.pcode = tb.pcode(+) ;		--외부 조인 tbl_buy 테이블에 일치하는 pcode 값이 없어도 조인.
+		
+-- JOIN 키워드를 쓰는 명령문 형식2(ANSI 표준)
+	select * FROM TBL_PRODUCT tp 
+		LEFT outer join TBL_BUY tb 
+		ON tp.PCODE =tb.PCODE ;		--tbl_product 가 왼쪽 테이블이며 그 값을 모두 포함하여 조인.조인했을 때 NULL 이 되는 테이블의 컬럼에 (+)기호
+		
+	SELECT * FROM TBL_BUY tb 
+		RIGHT OUTER JOIN TBL_PRODUCT tp 
+		ON TB.pcode =tb.PCODE ;		--tbl_product 가 오른쪽 테이블이며 그 값을 모두 포함하여 조인--주제 : 행을 그룹화 합니다. 사용하는 순서는 아래 순서대로 지키기.
+-- SELECT 문
+-- [WHERE] 그룹화 하기 전에 사용할 조건식
+-- group BY 그룹화에 사용할 컬럼명
+-- [HAVING] 그룹화 결과에 대한 조건식
+-- [ORDER BY] 그룹화 결과 정렬할 컬럼명가 방식
+
+SELECT PCODE , COUNT(*)  FROM TBL_BUY tb group BY PCODE ;
+SELECT PCODE , COUNT(*) , SUM(QUANTITY) 
+FROM TBL_BUY tb 
+group BY PCODE 
+ORDER BY 2;			-- 조회된 컬럼의 위치 
+
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+group BY PCODE 
+ORDER BY cnt;		--그룹함수 결과의 별칭
+
+--그룹화 후에 수량합계가 3 이상만 조회
+
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+group BY PCODE 
+-- HAVING total >= 3		--HAVING 에는 컬럼 별칭 사용 못함. 테이블컬럼명은 사용할 수 있음.
+HAVING SUM(QUANTITY) >=3 
+ORDER BY cnt;		-- 그룹함수 결과의 별칭
+
+-- 구매날짜 2022-04-01 이후인 것만 그룹화하여 조회
+SELECT PCODE , COUNT(*) cnt , SUM(QUANTITY) total 
+FROM TBL_BUY tb 
+WHERE BUY_DATE >= '2022=04-01'
+GROUP BY PCODE 
+ORDER BY cnt;
+-- Day2 참고 
+--통계 함수 : count, avg, max, min, sum . 통계 함수는 그룹 함수라고도 합니다.
+--			해당 함수 결과 값을 구하기 위해 특정 컬럼 사용하여 여러 데이터를 그룹화한 후 실행.
+SELECT count(*) FROM EMPLOYEES ; 	--테이블 전체 데이터 갯수 	: 107
+SELECT max(salary) FROM EMPLOYEES ; --salary 컬럼의 최대 값 : 24000
+SELECT min(salary) FROM EMPLOYEES ; --salary 컬럼의 최소 값 : 2100
+SELECT avg(salary) FROM EMPLOYEES ;	--salary 컬럼의 평균 값 : 6461.831775700934579439252336448598130841
+SELECT sum(salary) FROM EMPLOYEES ; --salary 컬럼의 합계 	: 691416
+
+--위 5개 통계 함수를 JOB_ID = 'IT_PROG' 값을 조건식으로 똑같이 실행해보기
+SELECT count(*) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; 	--IT_PROG의 데이터 갯수 	: 5
+SELECT max(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최대 값 : 9000
+SELECT min(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 최소 값 : 4200
+SELECT avg(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG';	--IT_PROG 컬럼의 평균 값 : 5760
+SELECT sum(salary) FROM EMPLOYEES WHERE job_ID ='IT_PROG'; --IT_PROG 컬럼의 합계 	: 28800
+
+-- 통계 함수 결과는 다른 컬럼 값과 같이 조회할 수 없다. (그룹 함수이기 때문입니다.)
+SELECT JOB_ID , count(*) FROM EMPLOYEES	--오류 : 단일 그룹의 그룹 함수가 아닙니다!
+WHERE job_ID ='IT_PROG';-- HR 스키마를 이용하여  조인과 group by 를 포함해서 select 로 검색하는 문제를 10개 만들기
+-- group by 결과로도 조인을 할 수 있습니다.	예시: 부서인원이 가장 많은 부서는?
+--작성자 강성빈
+--1 각 월급별 월급 수령자 (명) 내역 조회 
+SELECT salary , COUNT(*) FROM EMPLOYEES e group by SALARY ; 
+
+
+--2 직종 별 직원 수와 평균 임금
+SELECT JOB_ID  , COUNT(*) ,avg(SALARY)
+FROM EMPLOYEES e 
+group by JOB_ID  
+ORDER BY 3 ;
+
+--3 평균 임금이 10000이하인 직종, 직종 별 직원 수와 평균 임금 
+SELECT JOB_ID  , COUNT(*) ,avg(SALARY)
+FROM EMPLOYEES e 
+WHERE SALARY <=10000
+group by JOB_ID  
+ORDER BY 3;
+--4 2003년 이전부터 근무한 장기근속멤버 이름
+SELECT FIRST_NAME   ,  count(JOB_ID) 
+FROM EMPLOYEES e
+WHERE HIRE_DATE <= '2003-01-01'
+group by FIRST_NAME  
+ORDER BY 2; 
+
+--5 최고위직 이름 및 임금
+SELECT FIRST_NAME  , sum(salary)
+FROM EMPLOYEES e 
+WHERE MANAGER_ID  IS null
+GROUP BY FIRST_NAME  
+ORDER BY 2;
+
+--6 최고위직 직속 직원 이름 및 임금
+SELECT FIRST_NAME  , sum(salary)
+FROM EMPLOYEES e 
+WHERE MANAGER_ID  NOT BETWEEN 101 AND 300
+GROUP BY FIRST_NAME  
+ORDER BY 2;
+
+--7 장기유지부서 ID, 장기 근속직원 및 평균 임금
+SELECT department_id , COUNT(*) num_peo , avg (SALARY) dp_avg
+FROM EMPLOYEES e 
+WHERE HIRE_DATE <= '2003-01-01'
+GROUP BY DEPARTMENT_ID 
+ORDER BY num_peo;
+
+--8 인센티브 지급 대상자 ID
+SELECT EMPLOYEE_ID  , count(*)num_peo , avg (SALARY) dp_avg
+FROM EMPLOYEES e 
+WHERE COMMISSION_PCT  > 0
+GROUP BY EMPLOYEE_ID  
+ORDER BY num_peo;
+
+-- 9 성이 King인 직원들의 개 정보
+SELECT * FROM EMPLOYEES e  WHERE LAST_NAME  = 'King';
+
+-- 10 임금 10000이상인 인센티브 지급 대상자 풀네임/ 월급 및 지급 인센티브 비율
+select FIRST_NAME,LAST_NAME,COMMISSION_PCT,SALARY  FROM EMPLOYEES e  
+WHERE EMPLOYEE_ID  in			
+(SELECT EMPLOYEE_ID  FROM EMPLOYEES e  WHERE SALARY  >= 10000
+ 					and COMMISSION_PCT  IS NOT  NULL);
+ 					
+ 				
+ 				
+ 				
+ 				
+ 				
+ 				---------------------------
+ 				
+ 				-- 부서별 평균급여를 조회합니다. 정렬은 평균급여 내림차순으로 부서-ID, 부서명, 평균급여(소수점 1자리로 반올림)
+ 				-- 오라클 소수점 관련 함수 : round(반올림), trunc(버림), ceil(내림)
+ 				
+ 				--그룹 함수 조회할 떄 group by를 써야 그룹바이에 쓴 컬럼을 SELECT 로 조회할 수 있습니다.
+ 				-- 그룹바이 컬럼외에는 다른 컬럼 select 할 수 없습니다. -> JOIN ,서브쿼리
+ 			-- 1단계 : 사용할 그룹함수 실행하기
+			select DEPARTMENT_ID , AVG(salary) FROM EMPLOYEES e group BY DEPARTMENT_ID  ;
+ 			-- 2단계 :조인하기
+ 			SELECT * FROM DEPARTMENTS d JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID ;
+ 		
+ 		-- 3단계 : 컬럼 지정하기
+ 			SELECT d.DEPARTMENT_ID ,d.DEPARTMENT_NAME ,round(tavg.cavg,1) FROM DEPARTMENTS d 
+ 			JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID 
+ 			ORDER BY tavg.cavg DESC;
+ 		
+ 		-- 4단계 : 정렬한 결과로 특정 위치 지정 : first n은 상위 n개를 조회. 
+ 				
+ 			SELECT d.DEPARTMENT_ID ,d.DEPARTMENT_NAME ,round(tavg.cavg,1) FROM DEPARTMENTS d 
+ 			JOIN
+ 			(SELECT DEPARTMENT_ID, AVG(salary) CAVG  FROM EMPLOYEES e GROUP BY DEPARTMENT_ID) tavg
+ 			ON d.DEPARTMENT_ID = tavg.DEPARTMENT_ID 
+ 			ORDER BY tavg.cavg DESC
+ 			FETCH FIRST 1 ROWS ONLY; --오라클12c 버전부터 사용합니다.
+ 			
+ 		-- 다른 예시
+ 		SELECT d.department_id did, d.department_name , e.cnt
+ 		FROM DEPARTMENTS d 
+ 		JOIN
+ 		(SELECT DEPARTMENT_ID, COUNT(*) cnt FROM EMPLOYEES e 
+ 		group BY DEPARTMENT_ID 	) e
+ 		ON d.DEPARTMENT_ID  = e.DEPARTMENT_ID 
+ 		ORDER BY cnt DESC 
+ 		FETCH FIRST 1 ROWS ONLY;
+ 		
+ 	-- 오라클의 rownum은 가상의 컬럼으로 조회된 결과에 순차적으로 오라클이 부여하는 값입니다. 
+ 	-- 가상 컬럼 사용을 위해 join이 한번 더 필요합니다.
+ 	
+ 	SELECT rownum,tcnt.*FROM
+ 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+ 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt 
+ 		WHERE rownum < 5;
+ 	
+ 	SELECT rownum,tcnt.*FROM
+ 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+ 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt 
+ 		WHERE rownum = 1;
+ 	
+ 	-- rownum 사용할 때 결과 확인이 안되는 예시 : rownum 1부터 시작해서 찾아갈 수 있는 조건식만 가능
+ 	-- where rownum =3; 
+ 	-- where rownum > 5;
+--그래서 한번더 ROWNUM 을 포함한 조회 결과로 select 를 합니다. 이때 ROWNUM 은 별칭 부여.
+ 	SELECT * FROM 
+	 	(SELECT rownum rn,tcnt.*FROM
+		 	(SELECT department_id, COUNT(*) cnt FROM EMPLOYEES e
+		 		group BY  DEPARTMENT_ID ORDER BY cnt DESC ) tcnt )
+		 		WHERE rn BETWEEN 5 AND 9 ;
+ 	-- PL/SQL : Procedure(절차, 순서) Languagae, 기존의 단순한 SQL이 확장된 언어(SQL로 만드는 프로그램)
+-- 			변수, 제어문(if,반복문)을 사용하여 프로그래밍언어와 같이 sql 실행의 흐름을 제어
+
+
+
+-- 주의 : dbeaver는 프로시저의 디버깅 기능이 없습니다. (디버깅을 하려면 sql developer 사용. )
+
+DECLARE   -- 변수선언부  
+	-- vcustomid varchar2(20);
+	-- vage number(3,0);
+	vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	vage tbl_custom.age %TYPE;
+BEGIN		--프로시저 시작
+-- 프로시저 내부에는 주로 DML 명령문들을 작성.(함께 실행해야할 여러 SQL : 트랜잭션 - 한번에 실행해야하는 SQL 묶음)
+	SELECT name,age 
+	INTO vname , vage	-- 프로시저 구문: 검색결과를 변수에 저장
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID ='hongGD';		-- 1개 행만 결과 조회되는 조건
+									-- 여러 개의 행이 조회될 때는 다른 cursor 필요.
+	
+	
+-- 변수값을 콘솔에 출력(프로시저 명령)
+	DBMS_OUTPUT.PUT_LINE('고객이름 : ' || vname);
+	DBMS_OUTPUT.PUT_LINE('고객나이 : ' || vage);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN   -- 예외 이름은 다양합니다. 예시 : no_data_found 
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');
+END;
+
+
+-- 오라클 객체 프로시저 생성 : 검색할 값을 매개변수로 전달하기
+-- 프로시저 정의 오라클에서만 실행되는 메소드로 생각하면 된다. 매개변수를 인자 값으로 가져와서 
+CREATE OR REPLACE PROCEDURE  SEARCH_custom(	---- 프로시저 이름 설정
+	c_id IN tbl_custom.CUSTOM_ID %TYPE 	-- 매개변수 IN 
+												-- 리턴 값 OUT
+
+)
+IS 
+		--일반 변수 선언
+	vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	vage tbl_custom.age %TYPE;
+BEGIN 
+	SELECT name,age 
+	INTO vname , vage	
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID =c_id;		-- 1개 행만 결과 조회되는 조건
+									
+	DBMS_OUTPUT.PUT_LINE('고객이름 : ' || vname);
+	DBMS_OUTPUT.PUT_LINE('고객나이 : ' || vage);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	
+	
+END;
+
+
+-- 프로시저 실행
+BEGIN 
+	search_custom('wonder');
+END;
+
+
+--출력(리턴값)이 있는 프로시저 정의
+
+CREATE OR REPLACE PROCEDURE  SEARCH_custom2(	---- 프로시저 이름 설정
+	c_id IN tbl_custom.CUSTOM_ID %TYPE, 	-- 매개변수 IN 입력 값
+		c_name OUT tbl_custom.NAME %TYPE 	-- 리턴 값 프로시저의 출력 OUT 
+
+)
+IS 
+		--일반 변수 선언
+	--vname tbl_custom.name %TYPE;  -- 지정된 테이블의 컬럼과 동일형식의 변수
+	--vage tbl_custom.age %TYPE;
+BEGIN 
+	SELECT name
+	INTO c_name 	
+	FROM "TBL_CUSTOM" tc 
+	WHERE CUSTOM_ID =c_id;		-- 1개 행만 결과 조회되는 조건
+									
+	DBMS_OUTPUT.PUT_LINE('고객을 검사하였습니다.' || c_id);
+	EXCEPTION		-- 예외(오류)처리
+	WHEN no_data_found THEN  
+		DBMS_OUTPUT.PUT_LINE('찾는 데이터가 없습니다.');	
+	c_name := 'no match';   --대입문 := 기호
+	
+	
+END;
+
+
+-- 출력(리턴 값)이 있는 프로시저 실행 : 출력 값 저장을 위한 변수가 필요합니다.
+DECLARE 
+	vname tbl_custom.name %TYPE;
+BEGIN
+	search_custom2('momo', vname); -- vname 은 프로시저 정의할 때 out으로 선언.
+	--vname := search_custom2('mina012'); 이 형식은 아니다. 오해하지 말 것
+	dbms_output.put_line('*고객 이름 : ' || vname);
+END;
+
+-- BEGIN ~ END 에는 하나의 트랜잭션을 구성하는DML(insert, update, delete 위주) 명령들로 구성
+--			오류가 생기면 EXCEPTION 에서 rollback; 오류가 없을 때만 commit;
+
+-- 프로시저에 쓸 수 있는 몇 가지 SQL 
+
+CREATE TABLE tbl_temp
+AS 
+SELECT * FROM TBL_CUSTOM WHERE CUSTOM_ID ='0';
+
+-- SELECT 한 결과를 inset 하기
+INSERT INTO TBL_TEMP (SELECT * FROM TBL_CUSTOM tc WHERE CUSTOM_ID = 'wonder');
+
+
+SELECT * FROM TBL_TEMP tt ;
+
+--Function 오라클 객체의 비교
+-- 오라클 함수 : upper, lower, decode, round, to_date, to_char.....
+-- Function 은 사용자 함수로 정의합니다. 테이블을 대상으로 하는 것이 아니라 특정 데이터를 조작하는 동작.
+ 
+
+
+
+-- 데이터베이스 트리거 : INSERT ,UPDATE ,delect 할 때 동작하는 프로시저
+--			특정 테이블에 속해 있는 객체
+
+CREATE OR REPLACE TRIGGER secure_custom
+BEFORE UPDATE OR DELETE ON tbl_custom  -- 트리거 동작하는 테이블, SQL 과 시점
+BEGIN -- if 조건식 then 출력문
+	IF TO_CHAR(sysdate, 'HH24:MI') BETWEEN  '13:00' AND '15:00' THEN 
+	raise_application_error(-20000,'지금 오후 1시~3시는 작업할 수 없습니다.');
+	END IF;
+END;
+-- 트리거 동작 테스트
+DELETE FROM TBL_CUSTOM  WHERE CUSTOM_ID = 'momo';
+
+--트리거 비활성화
+ALTER TRIGGER secure_custom disalbe ;			--비활성화 disable 다시 활성화 enalbe
+
+
+
+-- 트리거에 필요한 테이블 사전에 생성.
+CREATE TABLE TBL_TEMP 
+AS
+SELECT * FROM TBL_BUY tb  WHERE CUSTOM_ID ='0';
+
+-- 트리거 정의(생성)
+
+CREATE OR REPLACE TRIGGER cancel_buy
+AFTER DELETE ON tbl_buy 
+FOR EACH ROW 		--만족(적용)하는 행이 여러 개일 때, : OLD UPDATE 또는 DELETE 하기 전 값, : NEW 는 INSERT 한 값
+BEGIN 
+	-- 구매 취소(tbl_buy테이블에서 삭제)한 데이터 tbl_temp 임시테이블에 insert : 여러 행에 대한 작업(행 트리거)
+	insert INTO tbl_temp 
+	VALUES 
+	(:OLD.custom_id,:OLD.pcode,:OLD.quantity, :OLD.buy_date, :OLD.buyno);
+END;
+
+-- 트리거 동작 테스트
+
+DELETE  FROM TBL_BUY tb WHERE CUSTOM_ID ='wonder';
+SELECT * FROM tbl_temp ;
+
+-- 추가 view 생성 연습
+-- grant resource, connect to c##idev -> 여기에는 view 생성권한은 업습니다.
+-- grant create view to c##idev; 	-> 뷰 생성권한 없는 오류 생기면 추가 권한 부여 하세요.
+CREATE VIEW v_buy
+AS
+
+SELECT tb.CUSTOM_ID ,tb.PCODE , tc.NAME , tc.EMAIL , tb.QUANTITY  
+FROM TBL_BUY tb , TBL_CUSTOM tc 
+WHERE tb.CUSTOM_ID = tc.CUSTOM_ID ;
+
+
+
+-- -- view : 가상 테이블(물리적으로 존재하지 않고 논리적으로 만들어진 테이블)
+--          ㄴ 물리적인 테이블을 이용해서 생성합니다.
+--			ㄴ 사용자(개발자)가 테이블처럼 select 를 조회를 할수 있는 테이블
+--				자주 사용되는 join 등을 미리 view 생성해서 사용합니다.
+--			ㄴ grant resource,connect to c##idev;   -> 뷰 생성권한 없는 오류 생기면 추가 권한 부여하세요.
+
+
+CREATE view v_dept
+AS
+
+select d.DEPARTMENT_ID , DEPARTMENT_NAME , e.EMPLOYEE_ID , e.FIRST_NAME , e.LAST_NAME , e.JOB_ID 
+FROM DEPARTMENTS d , EMPLOYEES e 
+WHERE d.department_id = e.DEPARTMENT_ID ;
+
+
+SELECT * FROM v_dept WHERE job_id = 'ST_CLERK';-- 데이터 가져오기 (import)
+-- 제공되는 csv 형식의 파일을 테이블로 변환할 수 있는 기능
+--		csv 파일은 데이터 항목을 , 구분하여 저장한 텍스트 파일입니다.(엑셀 또는 메모장에서 열기 가능)
+--		주의사항 : 자동으로 생성되는 테이블 컬럼의 크기가 데이터보다 작지 않게 또는 적절한 타입으로 설정해야함.
+
+-- 코드를 입력하세요
+
+-- ANIMAL_INS 테이블 행이 80187 개 정도되면 sql 쿼리의 실행속도 차이를 확인할 수 있습니다.
+--			예를 들면 서브쿼리와 조인의 sql 실행시간 비교 가능합니다.
+
+SELECT * FROM ANIMAL_INS ai ORDER BY ANIMAL_ID ;
+
+-- 데이터 내보내기(export)
+-- 현재 데이터베이스의 테이블 구조와 행(값)을 파일로 내보내기 합니다.
+-- DDL 테이블, 시퀀스 생성 명령문과 INSERT 명령들을 만들어서 .sql 파일 만듭니다.
+
+
+-- 프로그래머스 문제에서 필요한 오라클 함수 : nvl(null value) null 값을 대체하는 문자열 지정
+--					decode : 컬럼 값에 따라 출력 문자열을 지정 
+--					안 배운 함수들은 찾아보면서 하세요. 문자열 관련 함수 등등....
+
+
+-- ANSI 인코딩 형식으로 hrd_0712.sql 파일을 한꺼번에 실행시킵니다.
+
+-- 반드시 순서를 잘 고려해서 하세요.
+-- step 1
+create table member_tbl_02(
+    custno number(6) primary key,
+    custname varchar2(20),
+    phone varchar2(13),
+    address varchar2(60),
+    joindate date,
+    grade char(1),
+    city char(2)
+);
+
+create table money_tbl_02(
+    custno number(6) not null,
+    salenol number(8) not null,
+    pcost number(8),
+    amount number(4),
+    price number(8),
+    pcode varchar2(4),
+    sdate date,
+    primary key(custno,salenol),
+    foreign key(custno) references member_tbl_02(custno)
+);
+
+-- step 2
+CREATE SEQUENCE member_seq START WITH 100001;
+	
+
+-- step 3: 참조테이블 insert
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'김행복','010-111-2222','서울시 동대문구 휘경1동','2015-12-02','A','01');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'이축복','010-111-3333','서울시 동대문구 휘경2동','2015-12-06','B','01');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'장믿음','010-111-4444','울릉군 울릉읍 독도1리','2015-10-01','B','30');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'최사랑','010-111-5555','울릉군 울릉읍 독도2리','2015-11-13','A','30');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'진평화','010-111-6666','제주도 제주시 외나무골','2015-12-25','B','60');
+INSERT INTO MEMBER_TBL_02 (CUSTNO,CUSTNAME,PHONE,ADDRESS,JOINDATE,GRADE,CITY) VALUES (member_seq.nextval,'차공단','010-111-7777','제주도 제주시 감나무골','2015-12-11','C','60');
+
+-- step 4 : 참조하는 테이블 insert
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160001,500,5,2500,'A001','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160002,1000,4,4000,'A002','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100001,20160003,500,3,1500,'A008','2016-01-01');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100002,20160004,2000,1,2000,'A004','2016-01-02');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100002,20160005,500,1,500,'A001','2016-01-03');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100003,20160006,1500,2,3000,'A003','2016-01-03');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160007,500,2,1000,'A001','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160008,300,1,300,'A005','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160009,600,1,600,'A006','2016-01-04');
+INSERT INTO MONEY_TBL_02 (CUSTNO,SALENOL,PCOST,AMOUNT,PRICE,PCODE,SDATE) VALUES (100004,20160010,3000,1,3000,'A007','2016-01-06');
+
+
+-- insert 결과 확인
+select * from member_tbl_02;
+select * from money_tbl_02;INSERT INTO TBL_BUY(custom_id,PCODE,QUANTITY,BUYNO)
+VALUES ('sana97', 'GALAXYS22',1,tblbuy_seq.nextval);
+
+SELECT * FROM TBL_BUY tb ;
+
+---------commit과 rollback 
+
+DELETE FROM TBL_BUY tb   WHERE CUSTOM_ID = 'sana97';
+DELETE FROM TBL_CUSTOM tc WHERE CUSTOM_ID = 'sana97';
+
+SELECT * FROM TBL_CUSTOM tc ;
+ROLLBACK;		--commit전 INSERT 취소
+
+
+
+--
+
+SELECT * FROM TBL_CUSTOM tc ;
+
+SELECT name,email FROM TBL_CUSTOM tc WHERE CUSTOM_ID ='?';  --twice 가 ?일 때로
+
+ALTER TRIGGER secure_custom disable;
+UPDATE TBL_CUSTOM SET EMAIL = 'test@gmail.com'
+WHERE CUSTOM_ID = 'twice';
+
+SELECT * FROM TBL_CUSTOM tc ;
+
+DELETE FROM TBL_CUSTOM tc WHERE CUSTOM_ID = '?';
+-- 회원이 도서를 '대여'하는 업무처리와 관련된 테이블.
+create table book_member(
+mem_idx number(5) primary key, --회원번호 
+name varchar2(20) not null,
+email varchar2(20) not null,
+tel varchar2(20) unique,
+password varchar2(10)
+);
+
+create table tbl_book (
+bco
